@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CartCheckout.css";
+import { logEvent } from "../../../analytics";
 
 const BASE_URL = "https://thegoldfina.onrender.com";
 
@@ -68,8 +69,15 @@ const CheckoutPage = () => {
   const getTotalItems = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const getTotalPrice = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const clearCart = () => setCart([]); // simple clear cart function
-  const proceedNext = () => navigate("/checkout"); // change route as needed
+  const clearCart = () => {
+  setCart([]); // clear the cart
+  logEvent("Cart", "Cleared", "User cleared the cart"); // GA event
+};
+
+const proceedNext = () => {
+  navigate("/checkout"); // change route
+  logEvent("Checkout", "Proceed", "User proceeded to checkout"); // GA event
+};
 
   return (
     <section className="checkout-page">

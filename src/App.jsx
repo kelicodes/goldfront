@@ -1,6 +1,8 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
+import { initGA, logPageView } from "./analytics";
+
 
 import Home from "./Pages/Home/Home.jsx";
 import Login from "./Pages/Login/Login.jsx";
@@ -10,6 +12,7 @@ import Cartcheckout from "./Pages/Cartcheckout/Cartcheckout.jsx";
 import CheckoutPage from "./Pages/Checkout/Checkout.jsx";
 import Orders from "./Pages/Orders/Orders.jsx";
 import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
+import { useEffect } from "react";
 
 const App = () => {
   const location = useLocation();
@@ -18,6 +21,14 @@ const App = () => {
   const hideLayout = ["/login"];
 
   const showLayout = !hideLayout.includes(location.pathname);
+
+  useEffect(()=>{
+    initGA()
+  },[])
+
+  useEffect(()=>{
+    logPageView(location.pathname)
+  },[location])
 
   return (
     <div className="app">
