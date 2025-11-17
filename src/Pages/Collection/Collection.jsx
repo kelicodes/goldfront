@@ -13,7 +13,7 @@ const Collection = () => {
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
 
-  const BASE_URL = "https://goldback2.onrender.com";
+  const BASE_URL = "https://thegoldfina.onrender.com";
   const categories = ["All", "Shoes", "Sweatpants", "Jackets", "Hoodies"];
 
   // Fetch products from backend

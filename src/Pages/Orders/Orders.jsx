@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Orders.css";
 
-const BASE_URL = "https://goldback2.onrender.com";
+const BASE_URL = "https://thegoldfina.onrender.com";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

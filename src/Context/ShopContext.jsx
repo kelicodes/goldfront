@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const ShopContext = createContext();
 
-const BASE_URL = "https://goldback2.onrender.com";
+const BASE_URL = "https://thegoldfina.onrender.com";
 
 export const ShopContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);

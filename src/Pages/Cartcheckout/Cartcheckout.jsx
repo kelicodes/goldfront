@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CartCheckout.css";
 
-const BASE_URL = "https://goldback2.onrender.com";
+const BASE_URL = "https://thegoldfina.onrender.com";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
