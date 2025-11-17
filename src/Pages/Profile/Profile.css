@@ -1,0 +1,95 @@
+.profile-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.user-info h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.8rem;
+}
+
+.user-info p {
+  margin: 2px 0;
+  color: var(--sectext-color);
+}
+
+.orders-title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 5px;
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.order-card {
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.status.pending { background-color: orange; }
+.status.delivered { background-color: green; }
+.status.cancelled { background-color: red; }
+
+.order-card ul {
+  margin-top: 5px;
+  padding-left: 20px;
+}
+
+.no-orders, .not-logged {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--sectext-color);
+}

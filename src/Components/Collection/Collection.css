@@ -1,0 +1,30 @@
+.collection {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+  background: var(-bg--color);
+}
+
+.collection-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.collection-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Optional: Adjust spacing for small screens */
+@media (max-width: 768px) {
+  .collection {
+    padding: 30px 15px;
+  }
+  .collection-grid {
+    gap: 15px;
+  }
+}

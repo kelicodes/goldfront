@@ -1,0 +1,126 @@
+/* ===== VARIABLES ===== */
+:root {
+  --primary-color: gold;
+  --bg-color: linear-gradient(135deg, #1a1a1a, #111);
+  --text-color: white;
+  --sectext-color: gray;
+  --card-bg-color: #1e1e1e;
+  --border-color: #333;
+
+  --status-pending: orange;
+  --status-completed: #4caf50;
+  --status-cancelled: #f44336;
+}
+
+/* Light Mode */
+html[theme="light"] {
+  --primary-color: gold;
+  --bg-color: white;
+  --text-color: black;
+  --card-bg-color: #fff;
+  --border-color: #ccc;
+
+  --status-pending: orange;
+  --status-completed: green;
+  --status-cancelled: red;
+}
+
+/* ===== GLOBAL STYLES ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+/* ===== ORDERS SECTION ===== */
+.orders {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: var(--bg-color);
+}
+
+.orders h2 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+/* ===== ORDERS LIST ===== */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ===== ORDER CARD ===== */
+.order-card {
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background-color: var(--card-bg-color);
+  color: var(--text-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.order-card p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.order-card strong {
+  font-weight: 600;
+}
+
+/* ===== STATUS STYLES ===== */
+.status {
+  font-weight: bold;
+}
+
+.status.pending {
+  color: var(--status-pending);
+}
+
+.status.completed {
+  color: var(--status-completed);
+}
+
+.status.cancelled {
+  color: var(--status-cancelled);
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .orders {
+    padding: 10px;
+  }
+
+  .order-card {
+    padding: 12px;
+  }
+
+  .order-card p {
+    font-size: 0.9rem;
+  }
+
+  .orders h2 {
+    font-size: 1.5rem;
+  }
+}

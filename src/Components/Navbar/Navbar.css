@@ -1,0 +1,126 @@
+:root {
+  --primary-color: gold;
+  --bg-color: black;
+  --text-color: white;
+  --sectext-color: gray;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 0px 0px;
+  border-bottom: 2px solid var(--primary-color);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-logo h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+.navbar-logo span {
+  color: var(--text-color);
+}
+
+.navbar-links {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+.navbar-links li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.navbar-links li a:hover,
+.navbar-links li a.active {
+  color: var(--primary-color);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Cart */
+.navbar-cart {
+  position: relative;
+  cursor: pointer;
+}
+.navbar-cart .cart-count {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+  font-weight: bold;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  cursor: pointer;
+  color: var(--primary-color);
+  transition: transform 0.3s;
+}
+.theme-toggle:hover {
+  transform: rotate(15deg);
+}
+
+/* Logout button */
+.logout-btn {
+  cursor: pointer;
+  color: var(--primary-color);
+  transition: transform 0.2s;
+}
+.logout-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Mobile menu */
+.menu-icon {
+  cursor: pointer;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-links {
+    position: absolute;
+    top: 65px;
+    right: 0;
+    background: var(--bg-color);
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px 0;
+    border-top: 2px solid var(--primary-color);
+    transform: translateY(-200%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navbar-right {
+    gap: 10px;
+  }
+}
