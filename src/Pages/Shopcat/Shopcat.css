@@ -1,0 +1,127 @@
+/* ===========================
+   CATEGORY DISPLAY CSS
+=========================== */
+
+/* Container for the whole section */
+.category-display {
+  max-width: 1200px;
+  
+  padding: 40px 20px;
+  background-color: var(--bg-color);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  margin-top: 60px;
+}
+
+/* Title */
+.category-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 30px;
+}
+.category-title span{
+    color: var(--primary-color);
+}
+/* Grid container */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* No products text */
+.category-display p {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--sectext-color);
+  margin-top: 50px;
+}
+
+/* Spinner container */
+.category-grid > .spinner-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card hover effect */
+.category-grid .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-grid .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Card image */
+.category-grid .card img {
+  border-radius: 10px;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.category-grid .card img:hover {
+  transform: scale(1.05);
+}
+
+/* Card details */
+.category-grid .card .card-details {
+  padding: 10px 0;
+}
+
+.category-grid .card .card-details h3 {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.category-grid .card .card-details p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+/* Card price */
+.category-grid .card .card-details .price {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* ===========================
+   MOBILE RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  .category-display {
+    padding: 30px 15px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .category-grid .card img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .category-grid .card img {
+    height: 160px;
+  }
+}

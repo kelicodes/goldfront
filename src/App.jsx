@@ -11,6 +11,7 @@ import Cartcheckout from "./Pages/Cartcheckout/Cartcheckout.jsx";
 import CheckoutPage from "./Pages/Checkout/Checkout.jsx";
 import Orders from "./Pages/Orders/Orders.jsx";
 import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
+import CategoryDisplay from "./Pages/Shopcat/Shopcat.jsx";
 import BuyNowCheckout from "./Pages/Buynow/BuyNow.jsx";
 import { useEffect } from "react";
 
@@ -77,6 +78,13 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+          path="/category/:cat"
+          element={
+            <ProtectedRoute>
+              <CategoryDisplay/>
+            </ProtectedRoute>
+          }/>
         </Routes>
       </main>
       {showLayout && <Footer />}
