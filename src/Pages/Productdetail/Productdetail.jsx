@@ -120,7 +120,7 @@ const ProductDetail = () => {
 
           <button
             className="btn-buy-now"
-            onClick={handleBuyNow}
+            onClick={handleAddToCart}
             disabled={loading}
           >
             {loading ? "Processing..." : "Buy Now"}
