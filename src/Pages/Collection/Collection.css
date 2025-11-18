@@ -17,7 +17,9 @@
   margin-bottom: 30px;
   text-align: center;
 }
-
+.collection-grid p{
+  font-size: 0.7rem;
+}
 /* Drawer Toggle Button */
 .drawer-toggle {
   background: #222;
