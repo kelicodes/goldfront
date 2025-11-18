@@ -20,8 +20,7 @@ const Collection = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${BASE_URL}/products/fetch`);
-      console.log
+      const res = await axios.get(`${BASE_URL}/products/fetch`)
       if (res.data.products) setProducts(res.data.products);
     } catch (err) {
       console.error("Fetch products error:", err.response?.data || err.message);

@@ -24,8 +24,8 @@ const Card = ({ id, name, price, desc, category, image }) => {
       navigate("/login");
       return;
     }
-    addToCart({ _id: id, name, price, category, images: [image], quantity: 1 });
-    navigate("/checkout");
+    
+    navigate(`/buynow/${id}`);
   };
 
   const handleCardClick = () => {
@@ -38,7 +38,7 @@ const Card = ({ id, name, price, desc, category, image }) => {
       <div className="card-content">
         <h3 className="card-title">{name}</h3>
         <p className="card-desc">{desc}</p>
-        <p className="card-category">{category}</p>
+  
         <div className="card-footer">
           <span className="card-price">KES {price}</span>
           <div className="card-buttons">

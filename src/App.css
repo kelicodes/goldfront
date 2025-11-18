@@ -24,6 +24,24 @@ html, body {
   box-sizing: inherit;
 }
 
+/* ===========================
+   GLOBAL IMAGE MOBILE FIX
+=========================== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent images from becoming too tall on mobile */
+@media (max-width: 600px) {
+  img {
+    max-height: 300px;
+    object-fit: contain;
+  }
+}
+
+
 
 
 
