@@ -1,0 +1,92 @@
+/* ===========================
+   DELIVERY / FEATURES SECTION
+=========================== */
+.del-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.del-title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+/* GRID FOR FEATURES */
+.del {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+  gap: 20px;
+}
+
+/* FEATURE CARD */
+.delitem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 215, 0, 0.1); /* subtle gold tint */
+  border: 2px solid var(--primary-color);
+  border-radius: 15px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.delitem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ICON STYLE */
+.del-icon {
+  font-size: 40px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+/* TEXT */
+.delitem p {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* ===========================
+   DESKTOP VERSION
+=========================== */
+@media(min-width: 768px){
+  .del {
+    grid-template-columns: repeat(4, 1fr); /* 4 items in one row */
+  }
+}
+
+/* ===========================
+   MOBILE ADJUSTMENTS
+=========================== */
+@media(max-width: 480px){
+  .del {
+    grid-template-columns: 1fr; /* 1 column on very small screens */
+    gap: 15px;
+    padding: 0 15px;
+  }
+
+  .delitem {
+    padding: 25px 15px;
+  }
+
+  .del-icon {
+    font-size: 35px;
+  }
+
+  .delitem p {
+    font-size: 0.9rem;
+  }
+
+  .del-title {
+    font-size: 1.8rem;
+  }
+}

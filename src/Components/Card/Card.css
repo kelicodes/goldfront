@@ -1,22 +1,26 @@
+/* =========================
+   CARD STYLING
+========================= */
+
 /* Card container */
 .card {
   display: flex;
   flex-direction: column;
   border-radius: 12px;
   overflow: hidden;
-  background-color: var(--bg-color);
+  background-color: var(--card-bg);
   width: 100%;
   max-width: 300px;
   margin: 10px auto;
-  border: 1px solid #ddd;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border-color 0.4s;
   cursor: pointer;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--card-hover-shadow);
 }
 
 /* Image styling */
@@ -45,13 +49,13 @@
 
 .card-desc {
   font-size: 0.9rem;
-  color: #9CA3AF;
+  color: var(--card-text-secondary);
   margin: 5px 0;
 }
 
 .card-category {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--card-text-tertiary);
   margin: 5px 0 10px 0;
 }
 
@@ -87,8 +91,8 @@
   cursor: pointer;
   transition: all 0.3s;
   flex: 1 1 48%;
-  text-decoration: none; /* remove underline */
-  color: #fff;           /* ensure proper color */
+  text-decoration: none;
+  color: #fff;
 }
 
 .btn-add-cart {
@@ -96,7 +100,7 @@
 }
 
 .btn-add-cart:hover {
-  background-color: #0056b3;
+  background-color: #e6b800; /* slightly darker gold */
   transform: translateY(-2px);
 }
 
@@ -109,7 +113,31 @@
   transform: translateY(-2px);
 }
 
-/* Responsive */
+/* =========================
+   DARK / LIGHT MODE VARIABLES
+========================= */
+
+:root {
+  --card-bg: #ffffff; /* light card background */
+  --card-border: #ddd;
+  --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --card-hover-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  --card-text-secondary: #6b7280; /* gray-500 */
+  --card-text-tertiary: #9CA3AF;  /* gray-400 */
+}
+
+html[theme="dark"] {
+  --card-bg: #1e1e1e; /* darker card background for night mode */
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* stronger shadow in dark */
+  --card-hover-shadow: 0 14px 50px rgba(0, 0, 0, 0.8);
+  --card-text-secondary: #d1d5db; /* light gray */
+  --card-text-tertiary: #9ca3af;  /* softer gray */
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 768px) {
   .card {
     max-width: 45%;
