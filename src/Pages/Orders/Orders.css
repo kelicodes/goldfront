@@ -45,7 +45,7 @@ html, body {
 /* ===== ORDERS SECTION ===== */
 .orders {
   max-width: 1000px;
-  margin: 20px auto;
+  margin-top: 80px;
   padding: 15px;
   background-color: var(--bg-color);
 }

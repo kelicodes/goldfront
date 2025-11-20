@@ -18,7 +18,9 @@
   top: 0;
   z-index: 1000;
 }
-
+.navbar-orders{
+  color: var(--primary-color);
+}
 .navbar-logo h2 {
   font-size: 1.4rem;
   font-weight: 700;
@@ -80,7 +82,7 @@
 /* Logout button */
 .logout-btn {
   cursor: pointer;
-  color: var(--primary-color);
+  color: var(--text-color);
   transition: transform 0.2s;
 }
 .logout-btn:hover {

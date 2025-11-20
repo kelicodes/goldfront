@@ -39,7 +39,7 @@ const Orders = () => {
       setLoading(true);
       setError("");
       const data = await fetchOrders();
-      console.log(data.orders)
+      
       setOrders(data.orders);
       setLoading(false);
     };
