@@ -65,10 +65,25 @@ const CheckoutPage = () => {
   const getTotalItems = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const getTotalPrice = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const clearCart = () => {
-    setCart([]);
+  const clearCart = async () => {
+  const token = getToken();
+  if (!token) return;
+
+  try {
+    setLoading(true); // Optional: show loading while clearing
+    await axios.post(`${BASE_URL}/cart/clear`, {}, getAuthHeader());
     logEvent("Cart", "Cleared", "User cleared the cart");
-  };
+
+    // Update frontend state
+    setCart([]);
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    alert("Failed to clear cart. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const proceedNext = () => {
     navigate("/checkout");

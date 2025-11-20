@@ -1,6 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";  
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext.jsx";
+import {
+  logAddToCart,
+  logViewProduct,
+  logBeginCheckout,
+} from "../../analytics";
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
@@ -20,12 +25,19 @@ const ProductDetail = () => {
       setProduct(foundProduct);
       setMainImage(foundProduct.images?.[0] || "");
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // ✅ Track product view in GA
+      logViewProduct({
+        productId: foundProduct._id,
+        name: foundProduct.name,
+        price: foundProduct.price,
+        category: foundProduct.category,
+      });
     }
   }, [id, products]);
 
   if (!product) return <p className="loading">Loading product...</p>;
 
-  // Add product to cart and navigate to /cart if successful
   const handleAddToCart = async () => {
     setLoading(true);
 
@@ -33,10 +45,17 @@ const ProductDetail = () => {
       const success = await addToCart(product._id, quantity);
 
       if (success) {
-        // ✅ Redirect to cart page
+        // ✅ Track add to cart in GA
+        logAddToCart({
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          quantity,
+        });
+
         navigate("/cart");
       } else {
-        // ❌ Failed but continue allowing user to retry
         alert("Failed to add to cart. You can try again.");
       }
     } catch (err) {
@@ -47,7 +66,6 @@ const ProductDetail = () => {
     }
   };
 
-  // Buy now: add to cart first, then create order
   const handleBuyNow = async () => {
     setLoading(true);
 
@@ -57,6 +75,17 @@ const ProductDetail = () => {
         alert("Failed to add to cart. Try again.");
         return;
       }
+
+      // ✅ Track begin checkout for this product
+      logBeginCheckout([
+        {
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          quantity,
+        },
+      ]);
 
       // Replace with actual shipping info input
       const order = await createOrder("Mpesa", {
@@ -120,7 +149,7 @@ const ProductDetail = () => {
 
           <button
             className="btn-buy-now"
-            onClick={handleAddToCart}
+            onClick={handleBuyNow} // ✅ Fixed: call handleBuyNow, not handleAddToCart
             disabled={loading}
           >
             {loading ? "Processing..." : "Buy Now"}

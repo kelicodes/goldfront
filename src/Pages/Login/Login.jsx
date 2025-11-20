@@ -6,9 +6,11 @@ import { MdAttachEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { SiNamecheap } from "react-icons/si";
 import { AuthContext } from "../../Context/Authcontext.jsx";
+
+import { logUserLogin, logUserSignup } from "../../analytics"; // ✅ GA
 import "./Login.css";
 
-// Spinner component
+// Spinner component for button loading state
 const Spinner = () => (
   <div className="button-spinner">
     <div className="spinner"></div>
@@ -16,7 +18,7 @@ const Spinner = () => (
 );
 
 const Login = () => {
-  const [logstate, setLogstate] = useState("login");
+  const [logstate, setLogstate] = useState("login"); // "login" or "signup"
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,8 +49,15 @@ const Login = () => {
       if (response.data.success) {
         toast.success(response.data.message);
 
-        // Save token using AuthContext
+        // Save token in AuthContext
         login(response.data.token);
+
+        // ✅ Analytics tracking
+        if (logstate === "signup") {
+          logUserSignup(email);
+        } else {
+          logUserLogin(email);
+        }
 
         // Clear inputs
         setName("");
@@ -57,7 +66,7 @@ const Login = () => {
 
         navigate("/");
       } else {
-        toast.error(response.data.message || "Wrong email or password!");
+        toast.error(response.data.message || "Invalid email or password!");
       }
     } catch (err) {
       console.error(err);
@@ -118,11 +127,12 @@ const Login = () => {
           </span>
         </button>
 
-        <p>
+        <p className="toggle-text">
           {logstate === "signup"
             ? "Already have an account?"
             : "Don't have an account?"}{" "}
           <span
+            className="toggle-link"
             onClick={() =>
               setLogstate(logstate === "signup" ? "login" : "signup")
             }

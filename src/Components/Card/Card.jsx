@@ -2,15 +2,16 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext.jsx";
 import { toast } from "react-toastify";
+import { logAddToCart, logViewProduct, logBeginCheckout } from "../../analytics";
 import "./Card.css";
 
 const Card = ({ id, name, price, desc, category, image }) => {
   const { addToCart } = useContext(ShopContext);
   const navigate = useNavigate();
 
+  // Add to cart handler with analytics
   const handleAddToCart = (e) => {
     e.stopPropagation();
-
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -19,26 +20,26 @@ const Card = ({ id, name, price, desc, category, image }) => {
       return;
     }
 
-    addToCart({
-      _id: id,
+    const item = {
+      productId: id,
       name,
       price,
       category,
       images: [image],
       quantity: 1,
-    });
+    };
+
+    addToCart(item);
+    logAddToCart(item); // ✅ Track add-to-cart in GA4
 
     toast.success("Item added to cart!");
 
-    // ✅ Redirect user to cart after adding item
-    setTimeout(() => {
-      navigate("/cart");
-    }, 800);
+    setTimeout(() => navigate("/cart"), 800);
   };
 
+  // Buy now handler with analytics
   const handleBuyNow = (e) => {
     e.stopPropagation();
-
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -47,10 +48,29 @@ const Card = ({ id, name, price, desc, category, image }) => {
       return;
     }
 
+    const item = {
+      productId: id,
+      name,
+      price,
+      category,
+      images: [image],
+      quantity: 1,
+    };
+
+    logBeginCheckout([item]); // ✅ Track checkout start for single product
     navigate(`/buynow/${id}`);
   };
 
+  // Card click handler (view product) with analytics
   const handleCardClick = () => {
+    const item = {
+      productId: id,
+      name,
+      price,
+      category,
+    };
+
+    logViewProduct(item); // ✅ Track product view in GA4
     navigate(`/product/${id}`);
   };
 
