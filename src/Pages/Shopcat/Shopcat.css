@@ -5,11 +5,11 @@
 /* Container for the whole section */
 .category-display {
   max-width: 1200px;
-  
-  padding: 40px 20px;
+  padding: 0px 0px;
   background-color: var(--bg-color);
   transition: background-color 0.4s ease, color 0.4s ease;
-  margin-top: 60px;
+  margin-top: 6px;
+  
 }
 
 /* Title */
@@ -18,7 +18,7 @@
   font-weight: 700;
   color: var(--text-color);
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 .category-title span{
     color: var(--primary-color);
@@ -27,15 +27,15 @@
 .category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
+  gap: 5px;
 }
 
 /* No products text */
 .category-display p {
-  text-align: center;
+  text-align: left;
   font-size: 0.7rem;
   color: var(--sectext-color);
-  margin-top: 50px;
+  margin-top: 5px;
 }
 
 /* Spinner container */
