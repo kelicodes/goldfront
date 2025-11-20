@@ -1,9 +1,11 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
-import { initGA, logPageView } from "./analytics.js";
+import { initGA, logPageView } from "./analytics.js"; // GA for Vite
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import Home from "./Pages/Home/Home.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Collection from "./Components/Collection/Collection.jsx";
@@ -14,19 +16,20 @@ import Orders from "./Pages/Orders/Orders.jsx";
 import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
 import CategoryDisplay from "./Pages/Shopcat/Shopcat.jsx";
 import BuyNowCheckout from "./Pages/Buynow/BuyNow.jsx";
-import { useEffect } from "react";
-
 
 const App = () => {
   const location = useLocation();
 
+  // Hide Navbar/Footer on these routes
   const hideLayout = ["/login"];
   const showLayout = !hideLayout.includes(location.pathname);
 
+  // Initialize GA on first load
   useEffect(() => {
     initGA();
   }, []);
 
+  // Track page views on route change
   useEffect(() => {
     logPageView(location.pathname);
   }, [location]);
