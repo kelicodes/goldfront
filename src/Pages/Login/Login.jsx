@@ -45,22 +45,23 @@ const Login = () => {
       }
 
       if (response.data.success) {
-        login(response.data.token); // persistent login
+        toast.success(response.data.message);
+
+        // Save token using AuthContext
+        login(response.data.token);
+
+        // Clear inputs
         setName("");
         setEmail("");
         setPassword("");
-        toast.success(response.data.message);
+
         navigate("/");
       } else {
         toast.error(response.data.message || "Wrong email or password!");
-        setEmail("");
-        setPassword("");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong!");
-      setEmail("");
-      setPassword("");
+      toast.error("Something went wrong! Please try again.");
     } finally {
       setLoading(false);
     }

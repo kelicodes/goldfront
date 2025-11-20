@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Checkout.css";
 
 const BASE_URL = "https://thegoldfina.onrender.com";
@@ -10,7 +12,6 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Mpesa");
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
@@ -32,8 +33,8 @@ const CheckoutPage = () => {
       }
 
       const items = res.data.items
-        .filter(i => i.productId)
-        .map(i => ({
+        .filter((i) => i.productId)
+        .map((i) => ({
           id: i._id,
           productId: i.productId._id,
           name: i.productId.name || "N/A",
@@ -50,6 +51,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     fetchCart();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -57,40 +59,44 @@ const CheckoutPage = () => {
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setShippingInfo(prev => ({ ...prev, [name]: value }));
+    setShippingInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle order submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (cart.length === 0) return alert("Your cart is empty.");
+    if (cart.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
 
     setLoading(true);
-    setMessage("");
 
     try {
       const orderData = {
         items: cart,
         totalAmount,
         paymentMethod,
-        shippingAddress: { ...shippingInfo }, // send as object
+        shippingAddress: { ...shippingInfo },
       };
 
       const res = await axios.post(`${BASE_URL}/orders/create`, orderData, getAuthHeader());
 
       if (res.data.success) {
-        setMessage(paymentMethod === "Cash"
-          ? "✅ Order placed! Pay when delivery arrives."
-          : "✅ Order created! Proceed to M-Pesa payment.");
+        if (paymentMethod === "Cash") {
+          toast.success("✅ Order placed! Pay when delivery arrives.");
+        } else {
+          toast.success("✅ Order created! Proceed to M-Pesa payment.");
+        }
 
         setCart([]);
         setTimeout(() => navigate("/orders"), 1500);
       } else {
-        setMessage(`⚠️ ${res.data.message}`);
+        toast.error(`⚠️ ${res.data.message}`);
       }
     } catch (err) {
       console.error("Checkout Error:", err.response?.data || err.message);
-      setMessage("⚠️ Something went wrong. Please try again.");
+      toast.error("⚠️ Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -104,18 +110,24 @@ const CheckoutPage = () => {
         {/* Cart Summary */}
         <div className="cart-summary card">
           <h3>Order Summary</h3>
-          {cart.length === 0 ? <p>Your cart is empty.</p> : (
+          {cart.length === 0 ? (
+            <p>Your cart is empty.</p>
+          ) : (
             <ul className="cart-items-list">
-              {cart.map(item => (
+              {cart.map((item) => (
                 <li key={item.id} className="cart-item">
-                  <span>{item.name} x {item.quantity}</span>
+                  <span>
+                    {item.name} x {item.quantity}
+                  </span>
                   <span>KES {item.price * item.quantity}</span>
                 </li>
               ))}
             </ul>
           )}
           <hr />
-          <p><strong>Total Price:</strong> KES {totalAmount}</p>
+          <p>
+            <strong>Total Price:</strong> KES {totalAmount}
+          </p>
         </div>
 
         {/* Shipping & Payment Form */}
@@ -158,8 +170,6 @@ const CheckoutPage = () => {
           <button className="btn" type="submit" disabled={loading}>
             {loading ? "Processing..." : "Place Order"}
           </button>
-
-          {message && <p className="checkout-message">{message}</p>}
         </form>
       </div>
     </section>

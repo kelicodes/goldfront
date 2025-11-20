@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CartCheckout.css";
@@ -12,19 +12,19 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(false);
 
   const getToken = () => localStorage.getItem("token");
-  const getAuthHeader = () => ({ headers: { Authorization: `Bearer ${getToken()}` } });
+  const getAuthHeader = () => ({
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
 
   const fetchCart = async () => {
     const token = getToken();
     if (!token) {
-      console.warn("No token found, cart will remain empty");
       setCart([]);
       return;
     }
 
     try {
       const res = await axios.get(`${BASE_URL}/cart/getcart`, getAuthHeader());
-      console.log("Raw cart data:", res.data);
 
       if (!res.data.items || res.data.items.length === 0) {
         setCart([]);
@@ -32,7 +32,7 @@ const CheckoutPage = () => {
       }
 
       const items = res.data.items
-        .filter(i => i.productId)
+        .filter((i) => i.productId)
         .map((i) => ({
           id: i._id,
           productId: i.productId._id,
@@ -43,15 +43,17 @@ const CheckoutPage = () => {
           quantity: i.quantity || 1,
         }));
 
-      console.log("Mapped cart items:", items);
       setCart(items);
     } catch (err) {
-      console.error("Error fetching cart:", err.response?.data || err.message);
+      console.error("Error fetching cart:", err);
       setCart([]);
     }
   };
 
   useEffect(() => {
+    // Scroll to top on load
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     const loadCart = async () => {
       setLoading(true);
       await fetchCart();
@@ -60,47 +62,55 @@ const CheckoutPage = () => {
     loadCart();
   }, []);
 
-  window.scrollTo({
-  top: 0,
-  behavior: "smooth"
-});
-
-
   const getTotalItems = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const getTotalPrice = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const clearCart = () => {
-  setCart([]); // clear the cart
-  logEvent("Cart", "Cleared", "User cleared the cart"); // GA event
-};
+    setCart([]);
+    logEvent("Cart", "Cleared", "User cleared the cart");
+  };
 
-const proceedNext = () => {
-  navigate("/checkout"); // change route
-  logEvent("Checkout", "Proceed", "User proceeded to checkout"); // GA event
-};
+  const proceedNext = () => {
+    navigate("/checkout");
+    logEvent("Checkout", "Proceed", "User proceeded to checkout");
+  };
 
   return (
-    <section className="checkout-page">
-      <h2>Checkout</h2>
+    <section className="cart-checkout">
+      <h2 className="cart-title">Your Cart</h2>
 
       {loading ? (
-        <p>Loading cart...</p>
+        <p className="loading-text">Loading your cart...</p>
       ) : cart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="empty-cart-box">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+            alt="Empty Cart"
+            className="empty-cart-img"
+          />
+
+          <h3>Your cart is empty 🛒</h3>
+          <p>Looks like you haven’t added anything yet. Explore our products and find something you love!</p>
+
+          <button className="shop-now-btn" onClick={() => navigate("/")}>
+            Start Shopping
+          </button>
+        </div>
       ) : (
         <>
           <div className="cart-grid">
-            {cart.map((item, index) => (
-              <div className="cart-item" key={`${item.productId}-${index}`}>
+            {cart.map((item, i) => (
+              <div className="cart-item" key={`${item.productId}-${i}`}>
                 {item.images[0] && (
                   <img src={item.images[0]} alt={item.name} className="cart-item-img" />
                 )}
+
                 <div className="cart-item-info">
                   <h3>{item.name}</h3>
                   <p>Category: {item.category}</p>
                   <p>Price: KES {item.price}</p>
                   <p>Quantity: {item.quantity}</p>
-                  <p>Subtotal: KES {item.price * item.quantity}</p>
+                  <p className="subtotal">Subtotal: KES {item.price * item.quantity}</p>
                 </div>
               </div>
             ))}
@@ -110,10 +120,13 @@ const proceedNext = () => {
             <p>Total Items: {getTotalItems()}</p>
             <p>Total Price: KES {getTotalPrice()}</p>
 
-            {/* ===== New Buttons ===== */}
             <div className="cart-actions">
-              <button className="btn-clear" onClick={clearCart}>Clear Cart</button>
-              <button className="btn-checkout" onClick={proceedNext}>Checkout.</button>
+              <button className="btn-clear" onClick={clearCart}>
+                Clear Cart
+              </button>
+              <button className="btn-checkout" onClick={proceedNext}>
+                Proceed to Checkout
+              </button>
             </div>
           </div>
         </>

@@ -15,7 +15,7 @@ const Categories = () => {
 
   return (
     <section className="categories">
-      <h2 className="categories-title">Shop by Category</h2>
+      <h2 className="categories-title">Shop Our Top Categories.</h2>
       <div className="categories-grid">
         {categories.map((cat, index) => (
           <div

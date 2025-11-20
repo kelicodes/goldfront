@@ -2,7 +2,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import { initGA, logPageView } from "./analytics.js";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./Pages/Home/Home.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Collection from "./Components/Collection/Collection.jsx";
@@ -18,7 +19,6 @@ import { useEffect } from "react";
 const App = () => {
   const location = useLocation();
 
-  // Pages where we don't want Navbar and Footer
   const hideLayout = ["/login"];
   const showLayout = !hideLayout.includes(location.pathname);
 
@@ -32,16 +32,17 @@ const App = () => {
 
   return (
     <div className="app">
+      <ToastContainer position="top-center" autoClose={2000} />
+
       {showLayout && <Navbar />}
+
       <main>
         <Routes>
-          {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/product/:id" element={<ProductDetail />} />
 
-          {/* Protected routes */}
           <Route
             path="/cart"
             element={
@@ -69,7 +70,6 @@ const App = () => {
             }
           />
 
-          {/* BUY NOW WITH PARAMS */}
           <Route
             path="/buynow/:productId"
             element={
@@ -78,15 +78,18 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
           <Route
-          path="/category/:cat"
-          element={
-            <ProtectedRoute>
-              <CategoryDisplay/>
-            </ProtectedRoute>
-          }/>
+            path="/category/:cat"
+            element={
+              <ProtectedRoute>
+                <CategoryDisplay />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
+
       {showLayout && <Footer />}
     </div>
   );
