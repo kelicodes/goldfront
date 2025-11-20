@@ -1,4 +1,3 @@
-// src/Components/FAQ/FAQ.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import "./Faq.css";
@@ -39,15 +38,17 @@ const FAQ = () => {
   };
 
   useEffect(() => {
-    // Adjust maxHeight for smooth slide animation
     answerRefs.current.forEach((ref, i) => {
       if (ref) {
-        ref.style.maxHeight = openIndex === i ? `${ref.scrollHeight}px` : "0px";
+        if (openIndex === i) {
+          // set to scrollHeight first for smooth transition
+          ref.style.maxHeight = ref.scrollHeight + "px";
+        } else {
+          ref.style.maxHeight = "0px";
+        }
       }
     });
   }, [openIndex]);
-
-  
 
   return (
     <section className="faq-section">
@@ -69,7 +70,7 @@ const FAQ = () => {
               ref={(el) => (answerRefs.current[index] = el)}
               className="faq-answer"
             >
-              {item.answer}
+              <div className="faq-answer-inner">{item.answer}</div>
             </div>
           </div>
         ))}

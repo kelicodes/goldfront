@@ -1,7 +1,22 @@
+:root {
+  --primary-color: gold;
+  --bg-color: linear-gradient(135deg, #1a1a1a, #111);
+  --text-color: white;
+  --sectext-color: gray;
+}
+
+html[theme="light"] {
+  --primary-color: gold;
+  --bg-color: white;
+  --text-color: black;
+  --sectext-color: gray;
+}
+
 .faq-section {
   max-width: 900px;
   margin: 60px auto;
   padding: 0 20px;
+  color: var(--text-color);
 }
 
 .faq-title {
@@ -10,6 +25,7 @@
   font-weight: 700;
   color: var(--primary-color);
   margin-bottom: 40px;
+  letter-spacing: 0.5px;
 }
 
 .faq-container {
@@ -19,16 +35,17 @@
 }
 
 .faq-item {
-  border: 1px solid #ddd;
+  border: 1px solid #444;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 .faq-item.active {
   border-color: var(--primary-color);
-  background-color: #f9f9f9;
 }
 
 .faq-question {
@@ -37,6 +54,12 @@
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* Change question text color when active */
+.faq-item.active .faq-question span:first-child {
+  color: var(--primary-color);
 }
 
 .faq-icon {
@@ -47,13 +70,16 @@
   transform: rotate(180deg);
 }
 
+/* Outer container handles smooth collapse */
 .faq-answer {
   max-height: 0;
   overflow: hidden;
   padding: 0 20px;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  color: var(--sectext-color);
+  transition: max-height 0.5s ease, padding 0.3s ease;
 }
 
-.faq-item.active .faq-answer {
-  padding: 15px 20px;
+/* Inner container ensures all content is visible */
+.faq-answer-inner {
+  padding: 15px 0;
 }
