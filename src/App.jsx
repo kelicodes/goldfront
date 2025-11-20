@@ -15,7 +15,7 @@ import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
 import CategoryDisplay from "./Pages/Shopcat/Shopcat.jsx";
 import BuyNowCheckout from "./Pages/Buynow/BuyNow.jsx";
 import { useEffect } from "react";
-import { Analytics } from "@vercel/analytics/next"
+
 
 const App = () => {
   const location = useLocation();
