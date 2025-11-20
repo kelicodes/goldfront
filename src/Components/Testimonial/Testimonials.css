@@ -1,0 +1,85 @@
+:root {
+  --primary-color: gold;
+  --bg-color: linear-gradient(135deg, #1a1a1a, #111);
+  --text-color: white;
+  --sectext-color: gray;
+}
+
+html[theme="light"] {
+  --primary-color: gold;
+  --bg-color: white;
+  --text-color: black;
+  --sectext-color: gray;
+}
+
+.testimonials-section {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 0 20px;
+  color: var(--text-color);
+}
+
+.testimonials-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: var(--primary-color);
+}
+
+/* Marquee container */
+.testimonials-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.testimonials-container {
+  display: flex;
+  gap: 20px;
+  animation: scroll-left 10s linear infinite;
+}
+
+.testimonial-card {
+  min-width: 250px;
+  max-width: 300px;
+  flex: 0 0 auto;
+  background: var(--bg-color);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  color: var(--text-color);
+}
+
+.testimonial-feedback {
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 15px;
+  color: var(--sectext-color);
+}
+
+.testimonial-name {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.testimonial-project {
+  font-size: 0.9rem;
+  color: var(--sectext-color);
+}
+
+/* Animation: move from right to left */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Make it horizontal scroll on small screens */
+@media (max-width: 768px) {
+  .testimonials-container {
+    animation: scroll-left 15s linear infinite;
+  }
+}
