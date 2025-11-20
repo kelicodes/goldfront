@@ -1,7 +1,7 @@
 // src/Components/FAQ/FAQ.jsx
-import React, { useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import "./FAQ.css";
+import React, { useState, useRef, useEffect } from "react";
+import { FaChevronDown } from "react-icons/fa";
+import "./Faq.css";
 
 const faqData = [
   {
@@ -32,24 +32,45 @@ const faqData = [
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const answerRefs = useRef([]);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  useEffect(() => {
+    // Adjust maxHeight for smooth slide animation
+    answerRefs.current.forEach((ref, i) => {
+      if (ref) {
+        ref.style.maxHeight = openIndex === i ? `${ref.scrollHeight}px` : "0px";
+      }
+    });
+  }, [openIndex]);
+
+  
 
   return (
     <section className="faq-section">
       <h2 className="faq-title">Frequently Asked Questions</h2>
       <div className="faq-container">
         {faqData.map((item, index) => (
-          <div className="faq-item" key={index}>
-            <div className="faq-question" onClick={() => toggleFAQ(index)}>
+          <div
+            className={`faq-item ${openIndex === index ? "active" : ""}`}
+            key={index}
+            onClick={() => toggleFAQ(index)}
+          >
+            <div className="faq-question">
               <span>{item.question}</span>
               <span className="faq-icon">
-                {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+                <FaChevronDown />
               </span>
             </div>
-            {openIndex === index && <div className="faq-answer">{item.answer}</div>}
+            <div
+              ref={(el) => (answerRefs.current[index] = el)}
+              className="faq-answer"
+            >
+              {item.answer}
+            </div>
           </div>
         ))}
       </div>
