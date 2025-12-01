@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 // Pages
 import Home from "./Pages/Home/Home.jsx";
 import Login from "./Pages/Login/Login.jsx";
-import Collection from "./Components/Collection/Collection.jsx";
+
 import ProductDetail from "./Pages/Productdetail/Productdetail.jsx";
 import CartCheckout from "./Pages/Cartcheckout/Cartcheckout.jsx";
 import CheckoutPage from "./Pages/Checkout/Checkout.jsx";
