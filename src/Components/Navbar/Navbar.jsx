@@ -8,7 +8,7 @@ import { FaFirstOrder } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
   const navigate = useNavigate();
 
   const shopCtx = useContext(ShopContext) || {};
