@@ -13,6 +13,50 @@
   margin-bottom: 30px;
 }
 
+/* Entire Shop Now CTA becomes one pill button */
+.shopnow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  background: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: black; /* For text + icon */
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Hover effect for the whole button */
+.shopnow:hover {
+  transform: translateY(-2px);
+  background: #ffe37e; /* soft highlighted gold */
+}
+
+/* Make arrow look part of the button */
+.shopnow svg {
+  font-size: 1.2rem;
+  color: black;
+  transition: transform 0.3s ease;
+}
+
+/* Arrow slight push on hover */
+.shopnow:hover svg {
+  transform: translateX(5px);
+}
+
+/* Remove the old button style because we now use ONE unit */
+.btn-category {
+  all: unset; 
+  cursor: pointer;
+}
+
+
+
+
 .categories-grid {
   display: grid;
   gap: 20px;

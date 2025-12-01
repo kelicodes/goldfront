@@ -5,21 +5,21 @@ import "./Banner.css";
 const Banner = () => {
   const banners = [
     {
-      image: assets.hoodie,
+      image: assets.banner,
       title: "Discover the Latest Fashion",
       subtitle: "Trendy styles picked just for you",
       cta1: "Shop Now",
       cta2: "Learn More",
     },
     {
-      image: assets.jacket,
+      image: assets.kick,
       title: "Exclusive Deals in Store",
       subtitle: "Get up to 50% off on selected items",
       cta1: "Grab Offer",
       cta2: "Explore",
     },
     {
-      image: assets.shoes,
+      image: assets.bag,
       title: "New Arrivals This Season",
       subtitle: "Fresh designs you’ll fall in love with",
       cta1: "View Collection",
@@ -33,7 +33,7 @@ const Banner = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % banners.length);
-    }, 10000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [banners.length]);

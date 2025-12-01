@@ -20,6 +20,8 @@ import CheckoutPage from "./Pages/Checkout/Checkout.jsx";
 import Orders from "./Pages/Orders/Orders.jsx";
 import CategoryDisplay from "./Pages/Shopcat/Shopcat.jsx";
 import BuyNowCheckout from "./Pages/Buynow/BuyNow.jsx";
+import Collection from "./Pages/Collection/Collection.jsx";
+
 
 const App = () => {
   const location = useLocation();
@@ -68,6 +70,14 @@ const App = () => {
                 <CheckoutPage />
               </ProtectedRoute>
             }
+          />
+          <Route 
+          path="/collection"
+          element={
+            <ProtectedRoute>
+              <Collection/>
+            </ProtectedRoute>
+          }
           />
           <Route
             path="/orders"

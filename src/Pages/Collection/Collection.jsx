@@ -31,6 +31,7 @@ const Collection = () => {
 
   useEffect(() => {
     fetchProducts();
+    window.scrollTo(0,0)
   }, []);
 
   // Filter, search, and sort products

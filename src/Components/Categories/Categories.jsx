@@ -2,12 +2,14 @@ import React from "react";
 import "./Categories.css";
 import { assets } from "../../assets/asssets.js";
 import { useNavigate } from "react-router-dom";
+import { FaCircleArrowRight } from "react-icons/fa6";
+
 
 const categories = [
-  { name: "shoe", image: assets.shoes },
-  { name: "Jacket", image: assets.jacket },
-  { name: "Hoodie", image: assets.hoodie },
-  { name: "T-shirts", image: assets.shirt }, // kept your original spelling
+  { name: "Bags", image: assets.kick },
+  { name: "Dresses/skirts", image: assets.banner },
+  { name: "Accessories", image: assets.Accessories },
+  { name: "Combo", image: assets.combo }, // kept your original spelling
 ];
 
 const Categories = () => {
@@ -29,7 +31,10 @@ const Categories = () => {
             <img src={cat.image} alt={cat.name} className="category-image" />
             <div className="category-info">
               <h3>{cat.name}</h3>
+              <div className="shopnow">
+              <FaCircleArrowRight />
               <button className="btn-category">Shop Now</button>
+              </div>
             </div>
           </div>
         ))}

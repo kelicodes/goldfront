@@ -5,13 +5,14 @@ import Collection from "../../Pages/Collection/Collection.jsx"
 import Del from "../Del/Del.jsx"
 import FAQ from "../../Components/Faq/Faq.jsx"
 import Testimonials from "../../Components/Testimonial/Testimonial.jsx"
+import MiniCollection from "../../Components/Collection/Collection.jsx"
 
 
 const Home=()=>{
     return (<div className="home">
         <Banner/>
         <Categories/>
-        <Collection/>
+        <MiniCollection/>
         <Del/>
         <Testimonials/>
         <FAQ/>

@@ -4,12 +4,18 @@ import hoodie from "./hoodie.jpg"
 import jacket from "./jacket.webp"
 import shoes from "./shoes.jpg"
 import shirt from "./Tshirt.jpg"
-
+import banner from "./banner.jpg"
+import kick from "./kick.jpg"
+import bag from "./Bag.jpg"
+import combo from "./combo.jpg"
+import Accessories from "./Accessories.jpg" 
 
 export const assets={
     upload,
     profileimg,
-    hoodie,jacket,shoes,shirt
+    kick,
+    bag,
+    hoodie,jacket,shoes,shirt,banner,combo,Accessories
 }
 
 
