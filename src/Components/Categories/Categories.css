@@ -62,12 +62,14 @@
   background-color: var(--primary-color);
   border-radius: 15px;
   margin-top: 23px;
+  width: 30%;
 }
 
 .slide{
   background-color: var(--primary-color);
   border: var(--bg-color);
-  padding: 6px 6px ;
+  padding: 10px 10px ;
+  
 }
 
 
@@ -134,6 +136,11 @@
 @media (max-width: 768px) {
   .category-image {
     height: 180px;
+  }
+
+
+  .blood{
+    width: 100%;
   }
 
   .category-info h3 {
