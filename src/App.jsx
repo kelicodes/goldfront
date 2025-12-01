@@ -21,6 +21,7 @@ import Orders from "./Pages/Orders/Orders.jsx";
 import CategoryDisplay from "./Pages/Shopcat/Shopcat.jsx";
 import BuyNowCheckout from "./Pages/Buynow/BuyNow.jsx";
 import Collection from "./Pages/Collection/Collection.jsx";
+import Categories from "./Components/Categories/Categories.jsx";
 
 
 const App = () => {
@@ -76,6 +77,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Collection/>
+            </ProtectedRoute>
+          }
+          />
+          <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <Categories/>
             </ProtectedRoute>
           }
           />

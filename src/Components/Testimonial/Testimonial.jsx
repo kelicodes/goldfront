@@ -12,16 +12,16 @@ const Testimonials = () => {
     "Ali Mohamed",
     "Mary Wanjiku",
     "Peter Kimani",
-    "Grace Otieno"
+    "Grace Otieno",
   ];
 
   const feedbackPhrases = [
-    "really solved my problem with uncomfortable shoes. I can wear them all day without any pain, and they still look great after weeks of use.",
+    "really solved my problem with uncomfortable shoes. I can wear them all day without any pain.",
     "were exactly what I needed. My old shoes kept wearing out quickly, but these feel sturdy, durable, and comfortable.",
     "gave me the support I was looking for. My feet used to hurt after long walks, but now I can go the whole day without issues.",
     "exceeded my expectations. The quality is outstanding and I finally found shoes that last and stay stylish at the same time.",
     "have been a game-changer for my daily routine. No more blisters or sore feet, and they fit perfectly!",
-    "made my life easier. I’ve been struggling to find shoes that are both comfortable and long-lasting, and these are perfect."
+    "made my life easier. I’ve been struggling to find shoes that are both comfortable and long-lasting, and these are perfect.",
   ];
 
   // Fetch products from backend
@@ -38,13 +38,21 @@ const Testimonials = () => {
     fetchProducts();
   }, []);
 
-  // Generate unique testimonials
-  const testimonialsData = products.slice(0, 6).map((prod, idx) => ({
-    name: clientNames[idx % clientNames.length],
-    project: prod.name,
-    feedback: `I bought these ${prod.name} and they ${feedbackPhrases[idx % feedbackPhrases.length]}`,
-    image: prod.images?.[0] || null,
-  }));
+  // Generate testimonials, fallback if no products
+  const testimonialsData =
+    products.length > 0
+      ? products.slice(0, 6).map((prod, idx) => ({
+          name: clientNames[idx % clientNames.length],
+          project: prod.name,
+          feedback: `I bought these ${prod.name} and they ${feedbackPhrases[idx % feedbackPhrases.length]}`,
+          image: prod.images?.[0] || null,
+        }))
+      : clientNames.map((name, idx) => ({
+          name,
+          project: "Sample Product",
+          feedback: feedbackPhrases[idx % feedbackPhrases.length],
+          image: null,
+        }));
 
   // Duplicate for continuous scroll
   const scrollItems = [...testimonialsData, ...testimonialsData];

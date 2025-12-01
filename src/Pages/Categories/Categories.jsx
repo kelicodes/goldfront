@@ -12,7 +12,6 @@ const categories = [
   { name: "Dresses/skirts", image: assets.banner },
   { name: "Accessories", image: assets.Accessories },
   { name: "Combo", image: assets.combo }, // kept your original spelling
-  
 ];
 
 const Categories = () => {
