@@ -25,6 +25,7 @@ html, body {
   color: var(--text-color);
   padding: 10px 5px 5px;
   border-top: 2px solid var(--primary-color);
+  margin-bottom: 0px;
 }
 
 .footer-container {

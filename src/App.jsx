@@ -48,7 +48,7 @@ const App = () => {
       {/* Conditional Layout */}
       {showLayout && <Navbar />}
 
-      <main>
+      <main className="maincont" style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

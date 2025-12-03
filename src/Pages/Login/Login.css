@@ -60,7 +60,7 @@
   outline: none;
   flex: 1;
   background: transparent;
-  color: var(--text-color);
+  color: var(--primary-color);
   font-size: 1rem;
 }
 

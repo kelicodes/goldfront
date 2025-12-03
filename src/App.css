@@ -1,77 +1,65 @@
-:root{
-    --primary-color:gold;
-    --bg-color:linear-gradient(135deg, #1a1a1a, #111);
-    --text-color:white;
-    --sectext-color:gray;
+:root {
+  --primary-color: gold;
+  --bg-color: linear-gradient(135deg, #1a1a1a, #111);
+  --text-color: white;
+  --sectext-color: gray;
 }
 
-
-html[theme="light"]{
-    --primary-color:gold;
-    --bg-color:white;
-    --text-color:black;
-    
+/* Light Theme */
+html[theme="light"] {
+  --primary-color: gold;
+  --bg-color: white;
+  --text-color: black;
 }
 
+/* Base Reset */
 html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   width: 100%;
-  overflow-x: hidden; /* prevent horizontal scroll */
+  min-height: 100%;
+  box-sizing: border-box;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
+
 * {
   box-sizing: inherit;
 }
 
-/* ===========================
-   GLOBAL IMAGE MOBILE FIX
-=========================== */
+/* Layout Wrapper (for sticky footer) */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main Content grows to push footer down */
+.maincont {
+  flex: 1;
+}
+
+/* Side elements */
+.side {
+  display: flex;
+}
+
+.myside {
+  width: 18%;
+}
+
+/* Global Image Styling */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Prevent images from becoming too tall on mobile */
 @media (max-width: 600px) {
   img {
     max-height: 300px;
     object-fit: contain;
   }
-}
-
-
-
-
-
-* {
-  background-color: var(--bg-color);
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-
-.side{
-    display: flex;
-}
-
-html, body {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: var(--bg-color);
-}
-
-
-.myside{
-    width: 18%;
 }
