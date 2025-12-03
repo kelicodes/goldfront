@@ -1,6 +1,5 @@
-// src/Pages/Checkout/Checkout.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,166 +9,163 @@ const BASE_URL = "https://thegoldfina.onrender.com";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { orderId } = useParams();
+
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState("Mpesa");
-  const [shippingInfo, setShippingInfo] = useState({
-    name: "",
-    phone: "",
-    apartment: "Apartment A",
-    doorNumber: "",
+  const [checkoutRequestID, setCheckoutRequestID] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const getAuthHeader = () => ({
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 
-  const getToken = () => localStorage.getItem("token");
-  const getAuthHeader = () => ({ headers: { Authorization: `Bearer ${getToken()}` } });
-
-  // Fetch cart items
-  const fetchCart = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/cart/getcart`, getAuthHeader());
-      if (!res.data.items || res.data.items.length === 0) {
-        setCart([]);
-        return;
-      }
-
-      const items = res.data.items
-        .filter((i) => i.productId)
-        .map((i) => ({
-          id: i._id,
-          productId: i.productId._id,
-          name: i.productId.name || "N/A",
-          price: i.productId.price || 0,
-          quantity: i.quantity || 1,
-        }));
-
-      setCart(items);
-    } catch (err) {
-      console.error("Fetch Cart Error:", err);
-      setCart([]);
-    }
-  };
-
+  // Fetch order on mount
   useEffect(() => {
-    fetchCart();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    const fetchOrder = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/orders/${orderId}`, getAuthHeader());
+        if (res.data.success && res.data.order) {
+          setOrder(res.data.order);
+          setPaymentMethod(res.data.order.paymentMethod || "Mpesa");
+        } else {
+          toast.error("⚠️ Order not found.");
+          navigate("/cart");
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("⚠️ Failed to fetch order.");
+        navigate("/cart");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    fetchOrder();
+  }, [orderId, navigate]);
 
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setShippingInfo((prev) => ({ ...prev, [name]: value }));
-  };
+  // Poll payment status
+  useEffect(() => {
+    if (!checkoutRequestID) return;
 
-  // Handle order submission
+    const interval = setInterval(async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/orders/check-payment/${checkoutRequestID}`, getAuthHeader());
+        if (res.data.paid) {
+          toast.success("✅ Payment confirmed!");
+          await axios.put(`${BASE_URL}/orders/${orderId}/status`, { status: "Completed" }, getAuthHeader());
+          clearInterval(interval);
+          navigate("/orders");
+        } else if (res.data.failed) {
+          toast.error("❌ Payment failed.");
+          clearInterval(interval);
+        }
+      } catch (err) {
+        console.error("Payment polling error:", err);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [checkoutRequestID, orderId, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (cart.length === 0) {
-      toast.error("Your cart is empty.");
-      return;
-    }
+    if (!order) return;
 
-    setLoading(true);
+    setIsSubmitting(true);
 
     try {
-      const orderData = {
-        items: cart,
-        totalAmount,
-        paymentMethod,
-        shippingAddress: { ...shippingInfo },
-      };
+      // Refresh order data before proceeding
+      await axios.get(`${BASE_URL}/orders/${orderId}`, getAuthHeader());
 
-      const res = await axios.post(`${BASE_URL}/orders/create`, orderData, getAuthHeader());
+      if (paymentMethod === "Mpesa") {
+        const res = await axios.post(
+          `${BASE_URL}/pay/stkpush`,
+          {
+            phone: order.shippingAddress.phone,
+            amount: order.totalAmount,
+            orderId,
+            items: order.items || [],
+          },
+          getAuthHeader()
+        );
 
-      if (res.data.success) {
-        if (paymentMethod === "Cash") {
-          toast.success("✅ Order placed! Pay when delivery arrives.");
+        console.log("CheckoutRequestID from STK Push:", res.data.CheckoutRequestID);
+
+        if (res.data.success && res.data.CheckoutRequestID) {
+          // Save CheckoutRequestID to database
+          const patchRes = await axios.patch(
+            `${BASE_URL}/orders/update-checkout/${orderId}`,
+            { checkoutRequestID: res.data.CheckoutRequestID },
+            getAuthHeader()
+          );
+          console.log("PATCH result:", patchRes.data);
+
+          setCheckoutRequestID(res.data.CheckoutRequestID);
+          toast.info("✅ STK Push sent. Check your phone to complete payment.");
         } else {
-          toast.success("✅ Order created! Proceed to M-Pesa payment.");
+          toast.error("❌ Failed to initiate payment.");
         }
-
-        setCart([]);
-        setTimeout(() => navigate("/orders"), 1500);
       } else {
-        toast.error(`⚠️ ${res.data.message}`);
+        // Cash payment
+        toast.success("✅ Order placed! Pay on delivery.");
+        navigate("/orders");
       }
     } catch (err) {
-      console.error("Checkout Error:", err.response?.data || err.message);
-      toast.error("⚠️ Something went wrong. Please try again.");
+      console.error("Checkout error:", err.response || err);
+      toast.error("⚠️ Something went wrong during checkout.");
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
+
+  if (loading) return <p>Loading order details...</p>;
+  if (!order) return <p>Order not found.</p>;
 
   return (
     <section className="checkout-page">
       <h2 className="checkout-title">Checkout</h2>
 
       <div className="checkout-container">
-        {/* Cart Summary */}
+        {/* Order Summary */}
         <div className="cart-summary card">
           <h3>Order Summary</h3>
-          {cart.length === 0 ? (
-            <p>Your cart is empty.</p>
-          ) : (
+          {order.items?.length > 0 ? (
             <ul className="cart-items-list">
-              {cart.map((item) => (
-                <li key={item.id} className="cart-item">
-                  <span>
-                    {item.name} x {item.quantity}
-                  </span>
+              {order.items.map((item) => (
+                <li key={item.productId} className="cart-item">
+                  <span>{item.name} x {item.quantity}</span>
                   <span>KES {item.price * item.quantity}</span>
                 </li>
               ))}
             </ul>
+          ) : (
+            <p>No items in this order.</p>
           )}
           <hr />
-          <p>
-            <strong>Total Price:</strong> KES {totalAmount}
-          </p>
+          <p><strong>Total Price:</strong> KES {order.totalAmount}</p>
+          <p><strong>Shipping Phone:</strong> {order.shippingAddress.phone}</p>
         </div>
 
-        {/* Shipping & Payment Form */}
-        <form className="shipping-form card" onSubmit={handleSubmit}>
-          <h3>Shipping Information</h3>
-
+        {/* Payment Form */}
+        <form className="payment-form card" onSubmit={handleSubmit}>
+          <h3>Payment Method</h3>
           <label>
-            Name:
-            <input type="text" name="name" value={shippingInfo.name} onChange={handleChange} required />
-          </label>
-
-          <label>
-            Phone:
-            <input type="text" name="phone" value={shippingInfo.phone} onChange={handleChange} required />
-          </label>
-
-          <label>
-            Apartment:
-            <select name="apartment" value={shippingInfo.apartment} onChange={handleChange}>
-              <option value="Apartment A">Apartment A</option>
-              <option value="Apartment B">Apartment B</option>
-              <option value="Apartment C">Apartment C</option>
-              <option value="Apartment D">Apartment D</option>
-            </select>
-          </label>
-
-          <label>
-            Door Number:
-            <input type="text" name="doorNumber" value={shippingInfo.doorNumber} onChange={handleChange} required />
-          </label>
-
-          <label>
-            Payment Method:
+            Choose Payment:
             <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
               <option value="Mpesa">M-Pesa Payment</option>
               <option value="Cash">Pay on Delivery (Cash)</option>
             </select>
           </label>
 
-          <button className="btn" type="submit" disabled={loading}>
-            {loading ? "Processing..." : "Place Order"}
+          <button className="btn" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Processing..." : "Place Order"}
           </button>
+
+          {isSubmitting && paymentMethod === "Mpesa" && (
+            <p className="payment-spinner">⏳ Waiting for M-Pesa confirmation...</p>
+          )}
         </form>
       </div>
     </section>

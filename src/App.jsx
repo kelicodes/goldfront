@@ -65,13 +65,14 @@ const App = () => {
             }
           />
           <Route
-            path="/checkout"
+            path="/checkout/:orderId"
             element={
               <ProtectedRoute>
                 <CheckoutPage />
               </ProtectedRoute>
             }
           />
+
           <Route 
           path="/collection"
           element={

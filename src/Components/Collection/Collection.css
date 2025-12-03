@@ -125,6 +125,7 @@ html[theme="light"] {
 .see-more-btn {
   margin-top: 25px;
   background: var(--primary-color);
+  align-items: center;
   color: black;
   padding: 12px 18px;
   border-radius: 10px;
