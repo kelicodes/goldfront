@@ -24,7 +24,7 @@ html, body {
 }
 
 .acc-container {
-  max-width: 700px;
+  max-width: 750px;
   margin: 80px auto;
   padding: 25px;
   border-radius: 15px;
@@ -96,6 +96,23 @@ html, body {
   transform: translateY(-2px);
 }
 
+.login-btn {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #ffca28;
+  transform: translateY(-2px);
+}
+
 .avatar-preview {
   display: block;
   width: 180px;
@@ -104,6 +121,24 @@ html, body {
   border-radius: 15px;
   object-fit: cover;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(50, 50, 50, 0.8);
+  border-radius: 12px;
+}
+
+.profile-details p {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.profile-details strong {
+  color: var(--primary-color);
 }
 
 /* Responsive */
@@ -115,7 +150,7 @@ html, body {
   .acc-container h2 {
     font-size: 1.6rem;
   }
-  .acc-form button {
+  .acc-form button, .login-btn {
     font-size: 1rem;
     padding: 12px;
   }
