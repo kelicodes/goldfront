@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react"; 
 import { useNavigate } from "react-router-dom";
-import { Sun, Moon, ShoppingCart, LogOut } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
-import { FaFirstOrder } from "react-icons/fa";
 import { ShopContext } from "../../Context/ShopContext.jsx";
 import { AuthContext } from "../../Context/Authcontext.jsx";
 
@@ -22,13 +21,8 @@ const Navbar = () => {
   const authCtx = useContext(AuthContext) || {};
   const setToken = authCtx.setToken || (() => {});
 
-  useEffect(() => {
-    myCart(); // fetch user's cart data
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("theme", theme);
-  }, [theme]);
+  useEffect(() => { myCart(); }, []);
+  useEffect(() => { document.documentElement.setAttribute("theme", theme); }, [theme]);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -47,6 +41,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setToken(null);
     navigate("/login");
+    setDropdownOpen(false);
   };
 
   const links = [
@@ -60,9 +55,7 @@ const Navbar = () => {
     <nav className="navbar">
       {/* Logo */}
       <div className="navbar-logo" onClick={() => navigate("/")}>
-        <h2>
-          Gold<span>Store</span>
-        </h2>
+        <h2>Gold<span>Store</span></h2>
       </div>
 
       {/* Hamburger for mobile */}
@@ -88,27 +81,32 @@ const Navbar = () => {
 
       {/* Right Side */}
       <div className="navbar-right">
-        {/* Orders */}
-        <div className="navbar-orders" onClick={() => navigate("/orders")}>
-          <FaFirstOrder size={24} />
-        </div>
-
         {/* Cart */}
         <div className="navbar-cart" onClick={() => navigate("/cart")}>
-          <ShoppingCart size={24} />
+          <span>🛒</span>
           {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
         </div>
 
         {/* User Dropdown */}
         <div className="navbar-user" ref={dropdownRef}>
-          <CgProfile size={28} onClick={() => setDropdownOpen(prev => !prev)} style={{ cursor: "pointer" }} />
+          <CgProfile
+            size={28}
+            onClick={() => setDropdownOpen(prev => !prev)}
+            style={{ cursor: "pointer" }}
+          />
           {dropdownOpen && (
             <div className="user-dropdown">
+              <div className="dropdown-item" onClick={() => { navigate("/orders"); setDropdownOpen(false); }}>
+                Orders
+              </div>
               <div className="dropdown-item" onClick={() => { navigate("/closet"); setDropdownOpen(false); }}>
                 Closet
               </div>
               <div className="dropdown-item" onClick={() => { navigate("/profile"); setDropdownOpen(false); }}>
                 My Profile
+              </div>
+              <div className="dropdown-item logout" onClick={handleLogout}>
+                Logout
               </div>
             </div>
           )}
@@ -117,11 +115,6 @@ const Navbar = () => {
         {/* Theme Toggle */}
         <div className="theme-toggle" onClick={toggleTheme}>
           {theme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
-        </div>
-
-        {/* Logout */}
-        <div className="logout-btn" onClick={handleLogout}>
-          <LogOut size={24} />
         </div>
       </div>
     </nav>
