@@ -73,14 +73,7 @@ const App = () => {
             }
           />
 
-          <Route 
-          path="/collection"
-          element={
-            <ProtectedRoute>
-              <Collection/>
-            </ProtectedRoute>
-          }
-          />
+          
           <Route
           path="/categories"
           element={
