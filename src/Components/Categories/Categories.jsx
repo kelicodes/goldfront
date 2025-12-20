@@ -42,7 +42,7 @@ const Categories = () => {
           </div>
         ))}
       </div>
-      < div onClick={navigate("/categories")} className="blood">
+      < div onClick={()=>navigate("/categories")} className="blood">
       <button className="slide">SHOP OUR CATEGORIES.</button>
       <FaArrowRight />
 

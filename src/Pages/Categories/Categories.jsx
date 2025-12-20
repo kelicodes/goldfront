@@ -14,6 +14,8 @@ const categories = [
   { name: "Combo", image: assets.combo }, // kept your original spelling
 ];
 
+console.log("blood")
+
 const Categories = () => {
   const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ const Categories = () => {
           </div>
         ))}
       </div>
-      < div onClick={navigate("/categories")} className="blood">
+      < div onClick={()=>navigate("/categories")} className="blood">
       <button className="slide">SHOP OUR CATEGORIES.</button>
       <FaArrowRight />
 

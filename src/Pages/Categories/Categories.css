@@ -55,15 +55,19 @@
 }
 
 
-.blood{
-  display: flex;
-  align-items: center;
-  align-self: center;
-  justify-content: center;
+.blood {
+  display: inline-flex;       /* align items in a row */
+  align-items: center;        /* vertical alignment */
+  justify-content: center;    /* horizontal alignment */
+  gap: 10px;                  /* spacing between button and arrow */
   background-color: var(--primary-color);
   border-radius: 15px;
-  margin-top: 23px;
+  margin: 23px auto 0;        /* auto left/right margin centers the div */
+  padding: 10px 20px;         /* optional padding */
+  cursor: pointer;            /* indicate clickable */
+  max-width: fit-content;     /* button + icon shrink to content */
 }
+
 
 .slide{
   background-color: var(--primary-color);

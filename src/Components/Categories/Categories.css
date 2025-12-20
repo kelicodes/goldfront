@@ -1,8 +1,9 @@
+/* ================= CATEGORIES SECTION ================= */
 .categories {
   padding: 40px 20px;
-  max-width: 100%;
+  max-width: 1200px;
   margin: auto;
-  background-color: var(--bg-color)
+  background-color: var(--bg-color);
 }
 
 .categories-title {
@@ -13,74 +14,14 @@
   margin-bottom: 30px;
 }
 
-/* Entire Shop Now CTA becomes one pill button */
-.shopnow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 10px 22px;
-  border-radius: 50px;
-  background: var(--primary-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: black; /* For text + icon */
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-/* Hover effect for the whole button */
-.shopnow:hover {
-  transform: translateY(-2px);
-  background: #ffe37e; /* soft highlighted gold */
-}
-
-/* Make arrow look part of the button */
-.shopnow svg {
-  font-size: 1.2rem;
-  color: black;
-  transition: transform 0.3s ease;
-}
-
-/* Arrow slight push on hover */
-.shopnow:hover svg {
-  transform: translateX(5px);
-}
-
-/* Remove the old button style because we now use ONE unit */
-.btn-category {
-  all: unset; 
-  cursor: pointer;
-}
-
-
-.blood{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary-color);
-  border-radius: 15px;
-  margin-top: 23px;
-  width: 30%;
-}
-
-.slide{
-  background-color: var(--primary-color);
-  border: var(--bg-color);
-  padding: 10px 10px ;
-  
-}
-
-
-
-
+/* ================= CATEGORIES GRID ================= */
 .categories-grid {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
 
+/* ================= CATEGORY CARD ================= */
 .category-card {
   position: relative;
   overflow: hidden;
@@ -91,7 +32,7 @@
 
 .category-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3); /* subtle gold glow */
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
 }
 
 .category-image {
@@ -117,30 +58,80 @@
   color: white;
 }
 
+/* ================= SHOP NOW BUTTON IN CARD ================= */
+.shopnow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  background: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: black;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.shopnow:hover {
+  transform: translateY(-2px);
+  background: #ffe37e;
+}
+
+.shopnow svg {
+  font-size: 1.2rem;
+  color: black;
+  transition: transform 0.3s ease;
+}
+
+.shopnow:hover svg {
+  transform: translateX(5px);
+}
+
+/* Remove old button style, now integrated into shopnow */
 .btn-category {
+  all: unset;
+  cursor: pointer;
   padding: 8px 20px;
-  background-color: var(--primary-color);
-  color: var(--bg-color);
-  border: none;
   border-radius: 6px;
   font-weight: bold;
+  color: var(--bg-color);
+}
+
+/* ================= BOTTOM SHOP CATEGORIES BUTTON ================= */
+.blood {
+  display: inline-flex;
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* horizontal center */
+  gap: 10px;
+  background-color: var(--primary-color);
+  border-radius: 15px;
+  margin: 23px auto 0;      /* center horizontally */
+  padding: 12px 20px;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  max-width: fit-content;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-.btn-category:hover {
-  opacity: 0.85;
+.blood:hover {
+  background-color: #ffe37e;
+  transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
+.slide {
+  all: unset;
+  font-weight: bold;
+  color: var(--bg-color);
+  cursor: pointer;
+}
+
+/* ================= RESPONSIVE ADJUSTMENTS ================= */
 @media (max-width: 768px) {
   .category-image {
     height: 180px;
-  }
-
-
-  .blood{
-    width: 100%;
   }
 
   .category-info h3 {
@@ -149,8 +140,35 @@
 
   .btn-category {
     padding: 6px 16px;
-    font-size: 0.6rem;
+    font-size: 0.9rem;
   }
 
+  .blood {
+    width: 90%;
+    padding: 12px 15px;
+  }
 
+  .slide {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-title {
+    font-size: 1.6rem;
+  }
+
+  .btn-category {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+  }
+
+  .shopnow {
+    font-size: 0.9rem;
+    padding: 8px 18px;
+  }
+
+  .blood {
+    font-size: 0.9rem;
+  }
 }
