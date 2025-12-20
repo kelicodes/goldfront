@@ -42,7 +42,7 @@ html, body {
 .acc-container p {
   text-align: center;
   font-size: 1.1rem;
-  color: var(--sectext-color);
+  color: var(--primary-color);
 }
 
 .acc-form {
