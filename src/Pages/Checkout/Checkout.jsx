@@ -86,11 +86,11 @@ const CheckoutPage = () => {
             phone: order.shippingAddress.phone,
             amount: order.totalAmount,
             orderId,
-            items: order.items || [],
+            items: order.items ,
           },
           getAuthHeader()
         );
-
+        console.log(res.data)
         console.log("CheckoutRequestID from STK Push:", res.data.CheckoutRequestID);
 
         if (res.data.success && res.data.CheckoutRequestID) {

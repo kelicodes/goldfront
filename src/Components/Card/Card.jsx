@@ -28,8 +28,9 @@ const Card = ({ id, name, price, desc, category, image }) => {
       images: [image],
       quantity: 1,
     };
+    console.log(item.productId)
 
-    addToCart(item);
+    addToCart(item.productId);
     logAddToCart(item); // ✅ Track add-to-cart in GA4
 
     toast.success("Item added to cart!");

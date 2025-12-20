@@ -58,6 +58,7 @@
 .blood{
   display: flex;
   align-items: center;
+  align-self: center;
   justify-content: center;
   background-color: var(--primary-color);
   border-radius: 15px;
