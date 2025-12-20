@@ -1,22 +1,48 @@
-/* ======== Acc Component Styles ======== */
-.acc-container {
-  max-width: 80%;
-  height: auto;
-  margin: 100px auto 40px auto;
-  padding: 20px;
+:root {
+  --primary-color: gold;
+  --bg-color: linear-gradient(135deg, #1a1a1a, #111);
+  --text-color: white;
+  --sectext-color: gray;
+}
+
+html[theme="light"] {
+  --primary-color: gold;
+  --bg-color: white;
+  --text-color: black;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
   background: var(--bg-color);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   color: var(--text-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.4s ease;
+}
+
+.acc-container {
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 25px;
+  border-radius: 15px;
+  background: rgba(30, 30, 30, 0.95);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
 }
 
 .acc-container h2 {
   text-align: center;
-  margin-bottom: 20px;
+  font-size: 2rem;
   color: var(--primary-color);
-  font-size: 1.8rem;
-  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.acc-container p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--sectext-color);
 }
 
 .acc-form {
@@ -27,47 +53,40 @@
 
 .acc-form label {
   font-weight: 500;
-  margin-bottom: 5px;
-  color: var(--text-color);
 }
 
-/* Text inputs and file inputs */
 .acc-form input[type="text"],
 .acc-form input[type="number"],
 .acc-form input[type="file"],
 .acc-form select {
-  padding: 12px 15px; /* larger padding inside select */
-  border-radius: 8px;
+  padding: 12px 15px;
+  border-radius: 10px;
   border: 1px solid var(--sectext-color);
-  background: var(--bg-color);
+  background: rgba(50,50,50,0.9);
   color: var(--text-color);
   font-size: 1rem;
   transition: all 0.3s ease;
-  appearance: none; /* removes default arrow in some browsers */
 }
 
-/* Placeholder text */
 .acc-form input::placeholder {
   color: #aaa;
 }
 
-/* Focus style for inputs and selects */
 .acc-form input:focus,
 .acc-form select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 5px var(--primary-color);
+  box-shadow: 0 0 6px var(--primary-color);
 }
 
-/* Button styling */
 .acc-form button {
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: var(--primary-color);
   color: #111;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -77,85 +96,27 @@
   transform: translateY(-2px);
 }
 
-/* Avatar image preview */
 .avatar-preview {
   display: block;
-  width: 100%;
-  max-width: 200px;
+  width: 180px;
+  max-width: 100%;
   margin: 10px auto;
-  border-radius: 12px;
+  border-radius: 15px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-/* Display info section */
-.acc-info {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: center;
-}
-
-.acc-info p {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.acc-info button {
-  padding: 10px 15px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--primary-color);
-  color: #111;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.acc-info button:hover {
-  background-color: #ffca28;
-  transform: translateY(-2px);
-}
-
-/* ======= Responsive ======= */
+/* Responsive */
 @media (max-width: 768px) {
   .acc-container {
-    margin: 80px 15px 20px 15px;
-    padding: 15px;
+    margin: 50px 20px;
+    padding: 20px;
   }
-
   .acc-container h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
-
-  .avatar-preview {
-    max-width: 150px;
-  }
-}
-
-@media (max-width: 480px) {
-  .acc-container {
-    margin: 60px 10px 15px 10px;
-    padding: 10px;
-  }
-
-  .acc-container h2 {
-    font-size: 1.3rem;
-  }
-
-  .acc-form input,
-  .acc-form select,
   .acc-form button {
-    font-size: 0.9rem;
-    padding: 10px 12px;
-  }
-
-  .avatar-preview {
-    max-width: 120px;
-  }
-
-  .acc-info p {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    padding: 12px;
   }
 }
