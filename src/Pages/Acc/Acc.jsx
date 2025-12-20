@@ -1,9 +1,19 @@
 import "./Acc.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Acc = ({ token }) => {
+  const navigate = useNavigate();
+
+  // Redirect if no token
+  useEffect(() => {
+    if (!token) {
+      navigate("/login"); // redirect guests to login
+    }
+  }, [token, navigate]);
+
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [clothingSize, setClothingSize] = useState("");
@@ -58,7 +68,7 @@ const Acc = ({ token }) => {
       );
 
       setTimeout(() => {
-        window.location.href = "/collections";
+        navigate("/collections");
       }, 1000);
 
     } catch (err) {
@@ -69,35 +79,16 @@ const Acc = ({ token }) => {
     }
   };
 
-  if (!token) {
-    return (
-      <div className="acc-container">
-        <h2>Welcome to Your Virtual Closet</h2>
-        <p>Share your details and create your avatar to start exploring personalized collections.</p>
-      </div>
-    );
-  }
-
+  // Component is only rendered if token exists
   return (
     <div className="acc-container">
       <h2>Create Your Profile</h2>
-
       <form className="acc-form" onSubmit={handleSubmit}>
         <label>Height (cm):</label>
-        <input
-          type="number"
-          value={height}
-          placeholder="Enter height"
-          onChange={(e) => setHeight(e.target.value)}
-        />
+        <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="Enter height" />
 
         <label>Weight (kg):</label>
-        <input
-          type="number"
-          value={weight}
-          placeholder="Enter weight"
-          onChange={(e) => setWeight(e.target.value)}
-        />
+        <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="Enter weight" />
 
         <label>Clothing Size:</label>
         <select value={clothingSize} onChange={(e) => setClothingSize(e.target.value)}>
