@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const ShopContext = createContext();
 
@@ -11,6 +12,9 @@ const BASE_URL = "https://thegoldfina.onrender.com";
 const api = axios.create({
   baseURL: BASE_URL,
 });
+
+/* ================= SWEETALERT INSTANCE ================= */
+const MySwal = withReactContent(Swal);
 
 export const ShopContextProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -30,24 +34,43 @@ export const ShopContextProvider = ({ children }) => {
     };
   };
 
-  // UI-level auth check before API calls
-  const requireAuth = () => {
-    const token = getToken();
+  /* ================= REQUIRE AUTH CHECK ================= */
 
-    if (!token) {
-      toast.info("You need to login to perform this action.", {
-        position: "top-center",
-        autoClose: 3000,
-      });
 
-      // Redirect after a short delay
-      setTimeout(() => navigate("/login"), 1500);
+const requireAuth = () => {
+  const token = localStorage.getItem("token");
 
-      return false;
-    }
+  if (!token) {
+    Swal.fire({
+      title: "Login Required",
+      text: "To add items to cart, you need to login. Do you want to login now?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Login",
+      cancelButtonText: "Cancel",
+      focusCancel: true,
+      // Using your theme colors
+      confirmButtonColor: getComputedStyle(document.documentElement)
+        .getPropertyValue("--primary-color"),
+      cancelButtonColor: "gray",
+      background: getComputedStyle(document.documentElement)
+        .getPropertyValue("--bg-color"),
+      color: getComputedStyle(document.documentElement)
+        .getPropertyValue("--text-color"),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      } else {
+        navigate("/collection");
+      }
+    });
 
-    return true;
-  };
+    return false;
+  }
+
+  return true;
+};
+
 
   /* ================= AXIOS INTERCEPTOR ================= */
   useEffect(() => {
@@ -55,9 +78,11 @@ export const ShopContextProvider = ({ children }) => {
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          toast.error("Session expired. Please login again.", {
-            position: "top-center",
-            autoClose: 2500,
+          MySwal.fire({
+            icon: "error",
+            title: "Session Expired",
+            text: "Please login again.",
+            confirmButtonColor: "#f59e0b",
           });
           localStorage.removeItem("token");
           navigate("/login");
@@ -66,7 +91,9 @@ export const ShopContextProvider = ({ children }) => {
       }
     );
 
-    return () => api.interceptors.response.eject(interceptor);
+    return () => {
+      api.interceptors.response.eject(interceptor);
+    };
   }, [navigate]);
 
   /* ================= PRODUCTS ================= */
@@ -76,7 +103,6 @@ export const ShopContextProvider = ({ children }) => {
       if (res.data.products) setProducts(res.data.products);
     } catch (err) {
       console.error("Fetch products error:", err.response?.data || err.message);
-      toast.error("Failed to fetch products", { autoClose: 2000 });
     }
   };
 
@@ -86,7 +112,6 @@ export const ShopContextProvider = ({ children }) => {
       return res.data.success ? res.data.theproduct : null;
     } catch (err) {
       console.error("Fetch product error:", err.response?.data || err.message);
-      toast.error("Failed to fetch product", { autoClose: 2000 });
       return null;
     }
   };
@@ -100,7 +125,6 @@ export const ShopContextProvider = ({ children }) => {
 
     try {
       const res = await api.get("/cart/getcart", getAuthHeader());
-
       if (!res.data.cart?.items) {
         setCart([]);
         return;
@@ -123,70 +147,45 @@ export const ShopContextProvider = ({ children }) => {
     } catch (err) {
       console.error("Fetch cart error:", err.response?.data || err.message);
       setCart([]);
-      toast.error("Failed to fetch cart", { autoClose: 2000 });
     }
   };
 
   const addToCart = async (productId, quantity = 1) => {
-    if (!requireAuth()) return false;
+    if (!(await requireAuth())) return false;
 
-    try {
-      await api.post("/cart/add", { productId, quantity }, getAuthHeader());
-      await myCart();
-      toast.success("Added to cart", { autoClose: 1500 });
-      return true;
-    } catch (err) {
-      console.error("Add to cart error:", err.response?.data || err.message);
-      toast.error("Failed to add to cart", { autoClose: 2000 });
-      return false;
-    }
+    await api.post("/cart/add", { productId, quantity }, getAuthHeader());
+    await myCart();
+    return true;
   };
 
   const removeFromCart = async (productId) => {
-    if (!requireAuth()) return;
+    if (!(await requireAuth())) return;
 
-    try {
-      await api.post("/cart/remove", { productId }, getAuthHeader());
-      await myCart();
-      toast.success("Removed from cart", { autoClose: 1500 });
-    } catch (err) {
-      console.error("Remove from cart error:", err.response?.data || err.message);
-      toast.error("Failed to remove from cart", { autoClose: 2000 });
-    }
+    await api.post("/cart/remove", { productId }, getAuthHeader());
+    await myCart();
   };
 
   const updateCartItemQuantity = async (productId, quantity) => {
-    if (!requireAuth()) return;
+    if (!(await requireAuth())) return;
 
     if (quantity <= 0) {
       await removeFromCart(productId);
       return;
     }
 
-    try {
-      await api.post("/cart/update", { productId, quantity }, getAuthHeader());
-      await myCart();
-      toast.info("Cart updated", { autoClose: 1500 });
-    } catch (err) {
-      console.error("Update cart error:", err.response?.data || err.message);
-      toast.error("Failed to update cart", { autoClose: 2000 });
-    }
+    await api.post("/cart/update", { productId, quantity }, getAuthHeader());
+    await myCart();
   };
 
   const clearCart = async () => {
-    if (!requireAuth()) return;
+    if (!(await requireAuth())) return;
 
-    try {
-      await api.post("/cart/clear", {}, getAuthHeader());
-      setCart([]);
-      toast.info("Cart cleared", { autoClose: 1500 });
-    } catch (err) {
-      console.error("Clear cart error:", err.response?.data || err.message);
-      toast.error("Failed to clear cart", { autoClose: 2000 });
-    }
+    await api.post("/cart/clear", {}, getAuthHeader());
+    setCart([]);
   };
 
   const getTotalItems = () => cart.reduce((sum, item) => sum + item.quantity, 0);
+
   const getTotalPrice = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   /* ================= ORDERS ================= */
@@ -198,13 +197,10 @@ export const ShopContextProvider = ({ children }) => {
       if (res.data) setOrders(res.data);
     } catch (err) {
       console.error("Fetch orders error:", err.response?.data || err.message);
-      toast.error("Failed to fetch orders", { autoClose: 2000 });
     }
   };
 
   const createOrder = async (paymentMethod, shippingAddress) => {
-    if (!requireAuth()) return { success: false };
-
     try {
       const res = await api.post(
         "/orders/create",
@@ -215,13 +211,11 @@ export const ShopContextProvider = ({ children }) => {
       if (res.data.order) {
         setOrders((prev) => [res.data.order, ...prev]);
         setCart([]);
-        toast.success("Order created successfully!", { autoClose: 2000 });
       }
 
       return res.data;
     } catch (err) {
       console.error("Create order error:", err.response?.data || err.message);
-      toast.error("Failed to create order", { autoClose: 2000 });
       return { success: false };
     }
   };
