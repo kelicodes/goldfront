@@ -1,15 +1,19 @@
-import { useState, useEffect, useContext } from "react"; 
+import { useState, useEffect, useContext, useRef } from "react"; 
 import { useNavigate } from "react-router-dom";
 import { Sun, Moon, ShoppingCart, LogOut } from "lucide-react";
+import { CgProfile } from "react-icons/cg";
+import { FaFirstOrder } from "react-icons/fa";
 import { ShopContext } from "../../Context/ShopContext.jsx";
 import { AuthContext } from "../../Context/Authcontext.jsx";
-import { FaFirstOrder } from "react-icons/fa";
 
 import "./Navbar.css";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("light");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // For mobile menu
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   const shopCtx = useContext(ShopContext) || {};
   const cart = shopCtx.cart || [];
@@ -25,6 +29,17 @@ const Navbar = () => {
   useEffect(() => {
     document.documentElement.setAttribute("theme", theme);
   }, [theme]);
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const toggleTheme = () => setTheme(prev => (prev === "dark" ? "light" : "dark"));
 
@@ -44,14 +59,21 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       {/* Logo */}
-      <div className="navbar-logo">
-        <h2 onClick={()=>navigate("/")}>
+      <div className="navbar-logo" onClick={() => navigate("/")}>
+        <h2>
           Gold<span>Store</span>
         </h2>
       </div>
 
+      {/* Hamburger for mobile */}
+      <div className="navbar-hamburger" onClick={() => setMenuOpen(prev => !prev)}>
+        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+      </div>
+
       {/* Links */}
-      <ul className="navbar-links">
+      <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
         {links.map((link, index) => (
           <li key={index}>
             <a
@@ -66,15 +88,30 @@ const Navbar = () => {
 
       {/* Right Side */}
       <div className="navbar-right">
-        {/* Orders Icon */}
+        {/* Orders */}
         <div className="navbar-orders" onClick={() => navigate("/orders")}>
           <FaFirstOrder size={24} />
         </div>
 
-        {/* Cart Icon */}
+        {/* Cart */}
         <div className="navbar-cart" onClick={() => navigate("/cart")}>
           <ShoppingCart size={24} />
           {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
+        </div>
+
+        {/* User Dropdown */}
+        <div className="navbar-user" ref={dropdownRef}>
+          <CgProfile size={28} onClick={() => setDropdownOpen(prev => !prev)} style={{ cursor: "pointer" }} />
+          {dropdownOpen && (
+            <div className="user-dropdown">
+              <div className="dropdown-item" onClick={() => { navigate("/closet"); setDropdownOpen(false); }}>
+                Closet
+              </div>
+              <div className="dropdown-item" onClick={() => { navigate("/profile"); setDropdownOpen(false); }}>
+                My Profile
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Theme Toggle */}
@@ -82,7 +119,7 @@ const Navbar = () => {
           {theme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
         </div>
 
-        {/* Logout Button */}
+        {/* Logout */}
         <div className="logout-btn" onClick={handleLogout}>
           <LogOut size={24} />
         </div>

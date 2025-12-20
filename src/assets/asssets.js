@@ -9,13 +9,14 @@ import kick from "./kick.jpg"
 import bag from "./Bag.jpg"
 import combo from "./combo.jpg"
 import Accessories from "./Accessories.jpg" 
+import uploadimg from "./uploadimg.png"
 
 export const assets={
     upload,
     profileimg,
     kick,
     bag,
-    hoodie,jacket,shoes,shirt,banner,combo,Accessories
+    hoodie,jacket,shoes,shirt,banner,combo,Accessories,uploadimg
 }
 
 

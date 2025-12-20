@@ -22,7 +22,8 @@ import CategoryDisplay from "./Pages/Shopcat/Shopcat.jsx";
 import BuyNowCheckout from "./Pages/Buynow/BuyNow.jsx";
 import Collection from "./Pages/Collection/Collection.jsx";
 import Categories from "./Components/Categories/Categories.jsx";
-
+import Closet from "./Pages/Closet/Closet.jsx";
+import Acc from "./Pages/Acc/Acc.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -63,6 +64,22 @@ const App = () => {
                 <CartCheckout />
               </ProtectedRoute>
             }
+          />
+          <Route 
+          path="/closet"
+          element={
+            <ProtectedRoute>
+              <Closet/>
+            </ProtectedRoute>
+          }
+          />
+          <Route 
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Acc/>
+            </ProtectedRoute>
+          }
           />
           <Route
             path="/checkout/:orderId"

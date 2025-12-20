@@ -1,0 +1,161 @@
+/* ======== Acc Component Styles ======== */
+.acc-container {
+  max-width: 80%;
+  height: auto;
+  margin: 100px auto 40px auto;
+  padding: 20px;
+  background: var(--bg-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.acc-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.acc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.acc-form label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+/* Text inputs and file inputs */
+.acc-form input[type="text"],
+.acc-form input[type="number"],
+.acc-form input[type="file"],
+.acc-form select {
+  padding: 12px 15px; /* larger padding inside select */
+  border-radius: 8px;
+  border: 1px solid var(--sectext-color);
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  appearance: none; /* removes default arrow in some browsers */
+}
+
+/* Placeholder text */
+.acc-form input::placeholder {
+  color: #aaa;
+}
+
+/* Focus style for inputs and selects */
+.acc-form input:focus,
+.acc-form select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* Button styling */
+.acc-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: #111;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.acc-form button:hover {
+  background-color: #ffca28;
+  transform: translateY(-2px);
+}
+
+/* Avatar image preview */
+.avatar-preview {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 10px auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Display info section */
+.acc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.acc-info p {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.acc-info button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.acc-info button:hover {
+  background-color: #ffca28;
+  transform: translateY(-2px);
+}
+
+/* ======= Responsive ======= */
+@media (max-width: 768px) {
+  .acc-container {
+    margin: 80px 15px 20px 15px;
+    padding: 15px;
+  }
+
+  .acc-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .avatar-preview {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .acc-container {
+    margin: 60px 10px 15px 10px;
+    padding: 10px;
+  }
+
+  .acc-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .acc-form input,
+  .acc-form select,
+  .acc-form button {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  .avatar-preview {
+    max-width: 120px;
+  }
+
+  .acc-info p {
+    font-size: 0.9rem;
+  }
+}
