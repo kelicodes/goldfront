@@ -2,219 +2,211 @@ import "./Acc.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+} from "recharts";
+
+const BASE_URL = "https://thegoldfina.onrender.com";
 
 const Acc = () => {
-  const [profileData, setProfileData] = useState(null);
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [clothingSize, setClothingSize] = useState("");
-  const [shoeSize, setShoeSize] = useState("");
-  const [favoriteColor, setFavoriteColor] = useState("");
-  const [stylePreference, setStylePreference] = useState("");
-  const [budgetRange, setBudgetRange] = useState("");
-  const [bodyType, setBodyType] = useState("");
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-
   const token = localStorage.getItem("token");
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-    },
+  const [user, setUser] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  /* ================= HELPERS ================= */
+  const calculateBMI = (heightCm, weightKg) => {
+    if (!heightCm || !weightKg) return null;
+    const heightM = heightCm / 100;
+    return (weightKg / (heightM * heightM)).toFixed(1);
   };
 
-  // Fetch profile
+  const getBMICategory = (bmi) => {
+    if (!bmi) return "";
+    if (bmi < 18.5) return "Underweight";
+    if (bmi < 25) return "Normal";
+    if (bmi < 30) return "Overweight";
+    return "Obese";
+  };
+
+  /* ================= FETCH DATA ================= */
   useEffect(() => {
     if (!token) return;
 
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get(
-          "https://thegoldfina.onrender.com/avatar/",
-          { headers: { Authorization: `Bearer ${token}`,   "Content-Type": "multipart/form-data",
- } }
-        );
-        if (res.data.avatar) {
-          setProfileData(res.data.avatar);
-        }
+        const [userRes, avatarRes] = await Promise.all([
+          axios.get(`${BASE_URL}/user/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${BASE_URL}/avatar`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        if (userRes.data?.user) setUser(userRes.data.user);
+        if (avatarRes.data?.avatar) setAvatar(avatarRes.data.avatar);
       } catch (err) {
         console.error(err);
+        toast.error("Failed to load profile");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchProfile();
+    fetchData();
   }, [token]);
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  if (!image) {
-    toast.error("Upload an image");
-    return;
-  }
-
-  setLoading(true);
-
-  const formData = new FormData();
-  formData.append("height", height);
-  formData.append("weight", weight);
-  formData.append("clothingSize", clothingSize);
-  formData.append("shoeSize", Number(shoeSize));
-  formData.append("favoriteColor", favoriteColor);
-  formData.append("stylePreference", stylePreference);
-  formData.append("budgetRange", budgetRange);
-  formData.append("bodyType", bodyType);
-  formData.append("file", image);
-
-  try {
-    const res = await axios.post(
-      "https://thegoldfina.onrender.com/avatar/upload",
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    toast.success("Profile created 🎉");
-    setTimeout(() => {
-      window.location.href = "/collection";
-    }, 800);
-
-  } catch (err) {
-    console.error(err);
-    toast.error("Upload failed");
-  } finally {
-    setLoading(false);
-  }
-};
-;
-
-  // Guest view
+  /* ================= GUEST ================= */
   if (!token) {
     return (
-      <div className="acc-container">
-        <h2>Welcome to Your Virtual Closet</h2>
-        <p>
-          Share your details to create your avatar and explore personalized collections.
-        </p>
+      <div className="acc-container center">
+        <h2>Virtual Closet</h2>
+        <p>Login to access your personalized wardrobe.</p>
         <a href="/login">
-          <button className="login-btn">Login to Create Profile</button>
+          <button className="primary-btn">Login</button>
         </a>
       </div>
     );
   }
 
-  // Profile exists
-  if (profileData) {
+  /* ================= LOADING ================= */
+  if (loading) {
     return (
-      <div className="acc-container">
-        <h2>My Profile</h2>
-        <div className="profile-details">
-          <p><strong>Height:</strong> {profileData.height} cm</p>
-          <p><strong>Weight:</strong> {profileData.weight} kg</p>
-          <p><strong>Clothing Size:</strong> {profileData.clothingSize}</p>
-          <p><strong>Shoe Size:</strong> {profileData.shoeSize}</p>
-          <p><strong>Favorite Color:</strong> {profileData.favoriteColor}</p>
-          <p><strong>Style Preference:</strong> {profileData.stylePreference}</p>
-          <p><strong>Budget Range:</strong> {profileData.budgetRange} KES</p>
-          <p><strong>Body Type:</strong> {profileData.bodyType}</p>
-
-          {profileData.avatar && (
-            <img
-                src={profileData.imageUrl || profileData.originalImage}
-              alt="Avatar"
-              className="avatar-preview"
-            />
-          )}
-        </div>
+      <div className="acc-container center">
+        <p>Loading your profile...</p>
       </div>
     );
   }
 
-  // Create profile
+  /* ================= NO AVATAR ================= */
+  if (!avatar) {
+    return (
+      <div className="acc-container center">
+        <h2>Create Your Style Profile</h2>
+        <p>Complete your profile to unlock personalized fashion.</p>
+        <a href="/profile-setup">
+          <button className="primary-btn">Create Profile</button>
+        </a>
+      </div>
+    );
+  }
+
+  /* ================= DERIVED DATA ================= */
+  const bmi = calculateBMI(avatar.height, avatar.weight);
+  const bmiCategory = getBMICategory(bmi);
+
+  /* ================= CHART DATA ================= */
+  const metricsData = [
+    { name: "Height (cm)", value: avatar.height },
+    { name: "Weight (kg)", value: avatar.weight },
+    { name: "BMI", value: Number(bmi) },
+  ];
+
+  const styleData = [
+    { attribute: "Casual", value: avatar.stylePreference === "Casual" ? 100 : 30 },
+    { attribute: "Streetwear", value: avatar.stylePreference === "Streetwear" ? 100 : 30 },
+    { attribute: "Formal", value: avatar.stylePreference === "Formal" ? 100 : 30 },
+    { attribute: "Sporty", value: avatar.stylePreference === "Sporty" ? 100 : 30 },
+  ];
+
+  /* ================= PROFILE VIEW ================= */
   return (
     <div className="acc-container">
-      <h2>Create Your Profile</h2>
+      {/* Greeting Header */}
+      <div className="profile-header">
+        <div className="avatar-wrapper">
+          <img
+            src={avatar.imageUrl || avatar.originalImage}
+            alt="Avatar"
+            className="avatar-img rounded-avatar"
+          />
+        </div>
+        <div className="profile-meta">
+          <h2>Hi {user?.name}, welcome to your profile</h2>
+          <p className="muted">{user?.email}</p>
+          <span className={`bmi-pill ${bmiCategory.toLowerCase()}`}>
+            BMI: {bmi} ({bmiCategory})
+          </span>
+        </div>
+      </div>
 
-      <form
-        className="acc-form"
-        onSubmit={handleSubmit}
-        style={{ opacity: loading ? 0.6 : 1 }}
-      >
-        <label>Height (cm)</label>
-        <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} />
+      {/* Dashboard Grid */}
+      <div className="profile-grid">
+        <div className="profile-card">
+          <h4>Body Metrics</h4>
+          <p>Height: {avatar.height} cm</p>
+          <p>Weight: {avatar.weight} kg</p>
+          <p>Body Type: {avatar.bodyType}</p>
+        </div>
 
-        <label>Weight (kg)</label>
-        <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+        <div className="profile-card">
+          <h4>Sizes</h4>
+          <p>Clothing: {avatar.clothingSize}</p>
+          <p>Shoe: {avatar.shoeSize}</p>
+        </div>
 
-        <label>Clothing Size</label>
-        <select value={clothingSize} onChange={(e) => setClothingSize(e.target.value)}>
-          <option value="">Select</option>
-          <option>XS</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
-        </select>
+        <div className="profile-card">
+          <h4>Style Preferences</h4>
+          <p>Style: {avatar.stylePreference}</p>
+          <p>Color: {avatar.favoriteColor}</p>
+          <p>Budget: {avatar.budgetRange} KES</p>
+        </div>
 
-        <label>Shoe Size</label>
-        <select value={shoeSize} onChange={(e) => setShoeSize(e.target.value)}>
-          <option value="">Select</option>
-          {[...Array(15).keys()].map((i) => (
-            <option key={i} value={i + 35}>{i + 35}</option>
-          ))}
-        </select>
+        <div className="profile-card highlight">
+          <h4>Style Insights</h4>
+          <ul>
+            <li>Best fit for {avatar.bodyType} builds</li>
+            <li>{avatar.stylePreference} outfits recommended</li>
+            <li>{avatar.favoriteColor} tones suit you best</li>
+            {bmiCategory === "Overweight" && <li>Relaxed & straight fits suggested</li>}
+            {bmiCategory === "Normal" && <li>Most styles will fit perfectly</li>}
+          </ul>
+        </div>
 
-        <label>Favorite Color</label>
-        <select value={favoriteColor} onChange={(e) => setFavoriteColor(e.target.value)}>
-          <option value="">Select</option>
-          <option>Red</option>
-          <option>Blue</option>
-          <option>Green</option>
-          <option>Black</option>
-          <option>White</option>
-          <option>Gold</option>
-        </select>
+        {/* Charts */}
+        <div className="profile-card">
+          <h4>Body Metrics Chart</h4>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={metricsData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="var(--primary-color)" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
 
-        <label>Style Preference</label>
-        <select value={stylePreference} onChange={(e) => setStylePreference(e.target.value)}>
-          <option value="">Select</option>
-          <option>Casual</option>
-          <option>Streetwear</option>
-          <option>Formal</option>
-          <option>Sporty</option>
-        </select>
-
-        <label>Budget Range</label>
-        <select value={budgetRange} onChange={(e) => setBudgetRange(e.target.value)}>
-          <option value="">Select</option>
-          <option value="5000-10000">5k - 10k</option>
-          <option value="10000-20000">10k - 20k</option>
-          <option value="20000-50000">20k - 50k</option>
-          <option value="50000+">50k+</option>
-        </select>
-
-        <label>Body Type</label>
-        <select value={bodyType} onChange={(e) => setBodyType(e.target.value)}>
-          <option value="">Select</option>
-          <option>Slim</option>
-          <option>Regular</option>
-          <option>Athletic</option>
-          <option>Loose</option>
-        </select>
-
-        <label>Full Body Image</label>
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating your account..." : "Create Profile"}
-        </button>
-      </form>
+        <div className="profile-card highlight">
+          <h4>Style Preference Radar</h4>
+          <ResponsiveContainer width="100%" height={200}>
+            <RadarChart data={styleData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="attribute" />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} />
+              <Radar
+                dataKey="value"
+                stroke="var(--primary-color)"
+                fill="var(--primary-color)"
+                fillOpacity={0.5}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 };

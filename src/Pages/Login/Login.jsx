@@ -120,12 +120,14 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="btn" disabled={loading}>
-          {loading && <Spinner />}
-          <span style={{ marginLeft: loading ? "0.5rem" : 0 }}>
-            {logstate === "signup" ? "Sign Up" : "Login"}
-          </span>
-        </button>
+       <button type="submit" className="btn" disabled={loading}>
+  {loading ? (
+    <Spinner />
+  ) : (
+    logstate === "signup" ? "Sign Up" : "Login"
+  )}
+</button>
+
 
         <p className="toggle-text">
           {logstate === "signup"
