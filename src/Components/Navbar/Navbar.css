@@ -11,39 +11,40 @@
   align-items: center;
   background: var(--bg-color);
   color: var(--text-color);
-  padding: 8px 12px;
+  padding: 4px 10px; /* reduced vertical padding */
   border-bottom: 2px solid var(--primary-color);
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
-}
-
-.navbar-orders {
-  color: var(--primary-color);
+  font-size: 0.9rem; /* slightly smaller text */
 }
 
 .navbar-logo h2 {
-  font-size: 1.3rem;
+  font-size: 1.1rem; /* smaller logo */
   font-weight: 700;
   color: var(--primary-color);
   cursor: pointer;
 }
+
 .navbar-logo span {
   color: var(--text-color);
 }
 
 .navbar-links {
   display: flex;
-  gap: 25px;
+  gap: 15px; /* reduce gap */
   list-style: none;
 }
+
 .navbar-links li a {
   text-decoration: none;
   color: var(--text-color);
   font-weight: 500;
   transition: color 0.3s;
+  font-size: 0.85rem; /* smaller links */
 }
+
 .navbar-links li a:hover,
 .navbar-links li a.active {
   color: var(--primary-color);
@@ -52,7 +53,7 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px; /* reduce gap */
   flex-wrap: nowrap;
 }
 
@@ -63,13 +64,13 @@
 }
 .navbar-cart .cart-count {
   position: absolute;
-  top: -5px;
-  right: -8px;
+  top: -3px;
+  right: -6px;
   background-color: var(--primary-color);
   color: var(--bg-color);
   border-radius: 50%;
-  font-size: 12px;
-  padding: 2px 6px;
+  font-size: 10px;
+  padding: 1px 4px;
   font-weight: bold;
 }
 
@@ -90,10 +91,10 @@
   transition: transform 0.2s;
 }
 .logout-btn:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
-/* ========= USER DROPDOWN ========= */
+/* User dropdown */
 .navbar-user {
   position: relative;
   cursor: pointer;
@@ -101,12 +102,12 @@
 
 .user-dropdown {
   position: absolute;
-  top: 35px;
+  top: 30px; /* reduce distance */
   right: 0;
   background-color: var(--bg-color);
   border: 1px solid gray;
   border-radius: 6px;
-  width: 140px;
+  width: 120px; /* smaller width */
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   z-index: 100;
   opacity: 0;
@@ -123,39 +124,40 @@
 }
 
 .dropdown-item {
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.8rem; /* smaller padding */
   color: var(--text-color);
   transition: background 0.2s;
+  font-size: 0.85rem;
 }
+
 .dropdown-item:hover {
   background-color: rgba(255, 215, 0, 0.2);
 }
 
-/* ========= RESPONSIVE FIX ========= */
-
+/* ========= RESPONSIVE ========= */
 @media (max-width: 768px) {
   .navbar {
-    padding: 6px 10px;
+    padding: 3px 8px;
   }
 
   .navbar-logo h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .navbar-right {
-    gap: 10px;
+    gap: 6px;
   }
 
   .navbar-links {
     position: absolute;
-    top: 65px;
+    top: 50px; /* reduced top */
     right: 0;
     background: var(--bg-color);
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     width: 100%;
-    padding: 20px 0;
+    padding: 15px 0;
     border-top: 2px solid var(--primary-color);
     transform: translateY(-200%);
     opacity: 0;
@@ -173,27 +175,27 @@
 /* VERY SMALL PHONES */
 @media (max-width: 450px) {
   .navbar {
-    padding: 5px 8px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
   }
 
   .navbar-right {
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 4px;
   }
 
   .navbar-right svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 
   .navbar-cart .cart-count {
-    font-size: 10px;
-    padding: 1px 4px;
-    top: -4px;
-    right: -6px;
+    font-size: 9px;
+    padding: 1px 3px;
+    top: -3px;
+    right: -5px;
   }
 
   .navbar-logo h2 {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 }

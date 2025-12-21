@@ -56,8 +56,10 @@ const Acc = () => {
           }),
         ]);
 
-        if (userRes.data?.user) setUser(userRes.data.user);
+        if (userRes.data?.me) setUser(userRes.data.me);
         if (avatarRes.data?.avatar) setAvatar(avatarRes.data.avatar);
+          console.log(userRes)
+
       } catch (err) {
         console.error(err);
         toast.error("Failed to load profile");
@@ -68,6 +70,7 @@ const Acc = () => {
 
     fetchData();
   }, [token]);
+
 
   /* ================= GUEST ================= */
   if (!token) {
@@ -110,8 +113,8 @@ const Acc = () => {
 
   /* ================= CHART DATA ================= */
   const metricsData = [
-    { name: "Height (cm)", value: avatar.height },
-    { name: "Weight (kg)", value: avatar.weight },
+    { name: "Height", value: avatar.height },
+    { name: "Weight", value: avatar.weight },
     { name: "BMI", value: Number(bmi) },
   ];
 
@@ -131,11 +134,11 @@ const Acc = () => {
           <img
             src={avatar.imageUrl || avatar.originalImage}
             alt="Avatar"
-            className="avatar-img rounded-avatar"
+            className="avatar-img"
           />
         </div>
         <div className="profile-meta">
-          <h2>Hi {user?.name}, welcome to your profile</h2>
+          <h2>Hi {user?.name}, welcome</h2>
           <p className="muted">{user?.email}</p>
           <span className={`bmi-pill ${bmiCategory.toLowerCase()}`}>
             BMI: {bmi} ({bmiCategory})
@@ -143,7 +146,7 @@ const Acc = () => {
         </div>
       </div>
 
-      {/* Dashboard Grid */}
+      {/* Profile Grid */}
       <div className="profile-grid">
         <div className="profile-card">
           <h4>Body Metrics</h4>
@@ -179,7 +182,7 @@ const Acc = () => {
         {/* Charts */}
         <div className="profile-card">
           <h4>Body Metrics Chart</h4>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={150}>
             <BarChart data={metricsData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -192,7 +195,7 @@ const Acc = () => {
 
         <div className="profile-card highlight">
           <h4>Style Preference Radar</h4>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={150}>
             <RadarChart data={styleData}>
               <PolarGrid />
               <PolarAngleAxis dataKey="attribute" />
