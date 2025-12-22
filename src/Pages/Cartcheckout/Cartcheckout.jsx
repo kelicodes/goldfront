@@ -131,6 +131,14 @@ const CartPage = () => {
     }
   };
 
+  useEffect(()=>{
+    window.scrollTo({
+  top: 0,
+  behavior: "smooth",
+});
+
+  },[])
+
   return (
     <section className="cart-checkout">
       <h2 className="cart-title">Your Cart</h2>

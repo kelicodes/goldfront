@@ -4,6 +4,8 @@ import { Sun, Moon } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import { ShopContext } from "../../Context/ShopContext.jsx";
 import { AuthContext } from "../../Context/Authcontext.jsx";
+import { FaCartArrowDown } from "react-icons/fa";
+
 
 import "./Navbar.css";
 
@@ -44,12 +46,7 @@ const Navbar = () => {
     setDropdownOpen(false);
   };
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Products", path: "/" },
-    { name: "About", path: "/" },
-    { name: "Contact", path: "/" }
-  ];
+ 
 
   return (
     <nav className="navbar">
@@ -65,25 +62,12 @@ const Navbar = () => {
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
       </div>
 
-      {/* Links */}
-      <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
-        {links.map((link, index) => (
-          <li key={index}>
-            <a
-              href={link.path}
-              className={window.location.pathname === link.path ? "active" : ""}
-            >
-              {link.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-
       {/* Right Side */}
       <div className="navbar-right">
         {/* Cart */}
         <div className="navbar-cart" onClick={() => navigate("/cart")}>
-          <span>🛒</span>
+          <span><FaCartArrowDown />
+</span>
           {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
         </div>
 

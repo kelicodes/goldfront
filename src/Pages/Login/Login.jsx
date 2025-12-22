@@ -142,6 +142,17 @@ const Login = () => {
             {logstate === "signup" ? "Login" : "Sign Up"}
           </span>
         </p>
+        {logstate === "login" && (
+  <p className="forgot-password">
+    <span
+      onClick={() => navigate("/forgot-password")}
+      className="forgot-link"
+    >
+      Forgot password?
+    </span>
+  </p>
+)}
+
       </form>
     </div>
   );

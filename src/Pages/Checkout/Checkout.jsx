@@ -145,7 +145,7 @@ const CheckoutPage = () => {
           )}
           <hr />
           <p><strong>Total Price:</strong> KES {order.totalAmount}</p>
-          <p><strong>Shipping Phone:</strong> {order.shippingAddress.phone}</p>
+          <p><strong>Payment PhoneNumber:</strong> {order.shippingAddress.phone}</p>
         </div>
 
         {/* Payment Form */}

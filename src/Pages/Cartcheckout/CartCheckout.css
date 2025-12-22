@@ -23,9 +23,9 @@ body {
 /* ===== Container ===== */
 .cart-checkout {
   max-width: 1000px;
-  margin: 40px auto 20px auto;
+  margin: 60px auto 20px auto;
   padding: 20px;
-  margin-top: 7%;
+  margin-top: 17%;
 }
 
 .cart-title {

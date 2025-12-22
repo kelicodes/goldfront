@@ -24,12 +24,13 @@ import Collection from "./Pages/Collection/Collection.jsx";
 import Categories from "./Components/Categories/Categories.jsx";
 import Closet from "./Pages/Closet/Closet.jsx";
 import Acc from "./Pages/Acc/Acc.jsx";
+import ForgotPassword from "./Components/Password/Password.jsx";
 
 const App = () => {
   const location = useLocation();
 
   // Routes where layout (Navbar/Footer) should be hidden
-  const hideLayout = ["/login"];
+  const hideLayout = ["/login","/forgot-password"];
   const showLayout = !hideLayout.includes(location.pathname);
 
   // Initialize GA once on first render
@@ -106,6 +107,12 @@ const App = () => {
                 <Orders />
               </ProtectedRoute>
             }
+          />
+          <Route
+          path="/forgot-password"
+          element={
+            <ForgotPassword/>
+          }
           />
           <Route
             path="/buynow/:productId"
