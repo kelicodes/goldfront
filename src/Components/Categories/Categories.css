@@ -102,19 +102,24 @@
 
 /* ================= BOTTOM SHOP CATEGORIES BUTTON ================= */
 .blood {
-  display: inline-flex;
-  align-items: center;      /* vertical center */
-  justify-content: center;  /* horizontal center */
-  gap: 10px;
+  display: flex;               /* use flex to center content */
+  justify-content: center;     /* horizontal center */
+  align-items: center;         /* vertical center */
   background-color: var(--primary-color);
   border-radius: 15px;
-  margin: 23px auto 0;      /* center horizontally */
+  margin: 23px auto 0;
   padding: 12px 20px;
   cursor: pointer;
   max-width: fit-content;
-  text-align: center;
   transition: all 0.3s ease;
 }
+
+.blood-content {
+  display: flex;
+  align-items: center;        /* vertically align button + icon */
+  gap: 10px;                  /* spacing between button and icon */
+}
+
 
 .blood:hover {
   background-color: #ffe37e;

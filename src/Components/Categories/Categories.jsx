@@ -42,11 +42,13 @@ const Categories = () => {
           </div>
         ))}
       </div>
-      < div onClick={()=>navigate("/categories")} className="blood">
-      <button className="slide">SHOP OUR CATEGORIES.</button>
-      <FaArrowRight />
+    <div onClick={() => navigate("/categories")} className="blood">
+  <div className="blood-content">
+    <button className="slide">SHOP OUR CATEGORIES</button>
+    <FaArrowRight />
+  </div>
+</div>
 
-      </div>
     </section>
   );
 };

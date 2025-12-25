@@ -58,7 +58,8 @@ const CategoryDisplay = () => {
             />
           ))
         ) : (
-          <p>No products found.</p>
+          <p>No products in {decodedCategory}</p>
+
         )}
       </div>
     </section>

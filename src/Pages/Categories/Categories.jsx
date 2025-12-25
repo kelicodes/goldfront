@@ -11,7 +11,7 @@ const categories = [
   { name: "Bags", image: assets.kick },
   { name: "Dresses/skirts", image: assets.banner },
   { name: "Accessories", image: assets.Accessories },
-  { name: "Combo", image: assets.combo }, // kept your original spelling
+  { name: "combo", image: assets.combo }, // kept your original spelling
 ];
 
 console.log("blood")

@@ -14,7 +14,8 @@ const Collection = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const BASE_URL = "https://thegoldfina.onrender.com";
-  const categories = ["All", "Shoes", "Sweatpants", "Jackets", "Hoodies"];
+  const categories = ["All","Bags", "t-shirts", "Dresses", "trousers", "combo"];
+  
 
   // Fetch products from backend
   const fetchProducts = async () => {
