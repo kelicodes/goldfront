@@ -1,6 +1,6 @@
 // src/App.jsx
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
@@ -28,6 +28,7 @@ import ForgotPassword from "./Components/Password/Password.jsx";
 
 const App = () => {
   const location = useLocation();
+  const [hallaG,setHallag]=useState(false)
 
   // Routes where layout (Navbar/Footer) should be hidden
   const hideLayout = ["/login","/forgot-password"];
@@ -42,6 +43,12 @@ const App = () => {
   useEffect(() => {
     logPageView(location.pathname);
   }, [location.pathname]);
+
+
+  if(!hallaG){
+    return <>
+    <p>GOLDSTORE</p></>
+  }
 
   return (
     <div className="app">
