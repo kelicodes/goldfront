@@ -28,7 +28,7 @@ import ForgotPassword from "./Components/Password/Password.jsx";
 
 const App = () => {
   const location = useLocation();
-  const [hallaG,setHallag]=useState(false)
+  const [hallaG,setHallag]=useState(true)
 
   // Routes where layout (Navbar/Footer) should be hidden
   const hideLayout = ["/login","/forgot-password"];
